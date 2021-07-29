@@ -23,7 +23,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           script: |
-            cd /home/ubuntu/server
+            cd server
             git reset --hard
             git fetch
             git pull
