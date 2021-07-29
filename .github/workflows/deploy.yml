@@ -13,7 +13,7 @@ on:
 jobs:
   SSH:
     runs-on: utuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - name: Run scripts in server
@@ -21,7 +21,7 @@ jobs:
         with:
           key: ${{ secrets.SSH_KEY }}
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          username: ${{ secrets.USER }}`
           script: |
             cd server
             git reset --hard
@@ -31,4 +31,4 @@ jobs:
             sudo ./gradlew clean bootjar
             pm2 stop server
             pm2 delete server
-            pm2 start java --name "server" -- -jar build/libs/cc-0.0.1-SNAPSHOT.jar
+            pm2 start java --name "server" -- -jar build/libs/myrecord-0.0.1-SNAPSHOT.jar
