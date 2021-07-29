@@ -29,6 +29,7 @@ jobs:
             git pull
             chmod +x gradlew
             sudo ./gradlew clean bootjar
-            pm2 stop server
-            pm2 delete server
-            pm2 start java --name "server" -- -jar build/libs/myrecord-0.0.1-SNAPSHOT.jar
+            java -jar build/libs/myrecord-0.0.1-SNAPSHOT.jar
+#            pm2 stop server
+#            pm2 delete server
+#            pm2 start java --name "server" -- -jar build/libs/myrecord-0.0.1-SNAPSHOT.jar
