@@ -8,7 +8,7 @@ public class ApiController {
 
     @GetMapping("/api")
     public String hello() {
-        return "hello myrecord web!";
+        return "hello myrecord!";
     }
 
 }
