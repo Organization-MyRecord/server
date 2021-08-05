@@ -29,5 +29,3 @@ jobs:
             git pull
             chmod +x gradlew
             sudo ./gradlew clean bootjar
-            cd ../
-            sh deploy.sh
