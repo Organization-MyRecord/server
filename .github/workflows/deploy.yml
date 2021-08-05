@@ -27,7 +27,6 @@ jobs:
             git reset --hard
             git fetch
             git pull
-
 #            chmod +x gradlew
 #            sudo ./gradlew clean bootjar
 #            pm2 stop server
