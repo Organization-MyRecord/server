@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ApiController {
 
-    @GetMapping("/api")
+    @GetMapping("/hello")
     public String hello() {
         return "Hello MyRecord";
     }
