@@ -29,9 +29,13 @@ public class User {
 
     private String fieid;
 
+    private GenderEnum gender;
+
     private int age;
 
     private String content;
+
+    private String email;
 
     private int reporterCount = 3;
 

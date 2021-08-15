@@ -23,6 +23,7 @@ dependencies {
     //implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // https://mvnrepository.com/artifact/io.springfox/springfox-boot-starter
+    implementation "org.springframework.boot:spring-boot-starter-mail"
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
