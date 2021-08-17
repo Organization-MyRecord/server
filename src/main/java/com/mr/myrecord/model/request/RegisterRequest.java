@@ -1,5 +1,6 @@
 package com.mr.myrecord.model.request;
 import com.mr.myrecord.model.entity.GenderEnum;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class RegisterRequest {
 
     private String randomCode;
 
-
+    @ApiModelProperty(hidden = true)
     private Boolean verification;
 
 }
