@@ -122,7 +122,7 @@ public class RegisterController {
             // 세션만료
             httpSession.removeAttribute(oldBody.getEmail());
 
-            return "가입 완료";
+            return "가입  완료";
 
         }
         else {
