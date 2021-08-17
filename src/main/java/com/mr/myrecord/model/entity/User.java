@@ -27,8 +27,10 @@ public class User {
 
     private String major;
 
-    private String fieid;
+    @Enumerated(EnumType.STRING)
+    private FieldEnum field;
 
+    @Enumerated(EnumType.STRING)
     private GenderEnum gender;
 
     private int age;

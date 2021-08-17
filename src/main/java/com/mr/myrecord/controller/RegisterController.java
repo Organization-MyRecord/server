@@ -4,6 +4,9 @@ import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.request.RegisterRequest;
 import com.mr.myrecord.service.MailService;
 import com.mr.myrecord.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 @RestController
+@Api(tags = "이메일 인증 & 가입")
 public class RegisterController {
 
     @Autowired
@@ -20,8 +24,11 @@ public class RegisterController {
     @Autowired
     UserService userService;
 
+    @ApiOperation(value =  "이메일로 랜덤 코드 전송")
     @GetMapping("/email")
-    public String email(@RequestParam String email,
+    public String email(
+            @ApiParam(value = "이메일 주소", required = true, example = "test@naver.com")
+            @RequestParam String email,
                         HttpSession httpSession) throws UnsupportedEncodingException, MessagingException {
 
         RegisterRequest body = new RegisterRequest();
@@ -51,8 +58,12 @@ public class RegisterController {
      * 랜덤코드, 이메일 인증후 받으면 true
      * 클라이언트에선 이메일로 인증코드 받은 경우 verify 신청 가능하게 함
      */
+    @ApiOperation(value =  "랜덤 코드 올바른지 확인")
     @GetMapping("/verify")
-    public String verify(@RequestParam String email,
+    public String verify(
+            @ApiParam(value = "!!이메일 주소 필수!!", required = true, example = "test@naver.com")
+            @RequestParam String email,
+                         @ApiParam(value = "!!랜덤코드 입력 필수!!", required = true, example = "******")
                          @RequestParam String randomCode,
                          HttpSession httpSession) {
         RegisterRequest body = RegisterRequest.builder()
@@ -87,6 +98,7 @@ public class RegisterController {
      * 세션에서 꺼내서 확인하고 저장
      * 필수 정보 : 이름, 직업, 성별, 학과, 나이, 이메일, 비밀번호
      */
+    @ApiOperation(value = "회원가입 정보 입력 후 확인 버튼", notes = "회원가입 객체 전달 필요")
     @PostMapping("/register")
     public String create(@RequestBody RegisterRequest request,
                          HttpSession httpSession) {

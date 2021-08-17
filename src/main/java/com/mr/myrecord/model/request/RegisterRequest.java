@@ -1,5 +1,6 @@
 package com.mr.myrecord.model.request;
 
+import com.mr.myrecord.model.entity.FieldEnum;
 import com.mr.myrecord.model.entity.GenderEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,8 @@ public class RegisterRequest {
     private String job;
 
     private GenderEnum gender;
+
+    private FieldEnum field;
 
     private String major;
 

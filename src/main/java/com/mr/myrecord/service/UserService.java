@@ -40,6 +40,7 @@ public class UserService {
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .gender(request.getGender())
+                .field(request.getField())
                 .name(request.getName())
                 .job(request.getJob())
                 .major(request.getMajor())
