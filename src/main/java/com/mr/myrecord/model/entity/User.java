@@ -23,15 +23,16 @@ public class User {
 
     private String name;
 
-    private String job;
-
     private String major;
 
-    @Enumerated(EnumType.STRING)
-    private FieldEnum field;
+    private String detailMajor;
+
+    private String field;
 
     @Enumerated(EnumType.STRING)
     private GenderEnum gender;
+
+    private String birth;
 
     private int age;
 
