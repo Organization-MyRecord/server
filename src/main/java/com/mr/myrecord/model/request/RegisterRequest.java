@@ -33,6 +33,7 @@ public class RegisterRequest {
 
     private String randomCode;
 
+
     private Boolean verification;
 
 }
