@@ -60,7 +60,7 @@ public class RegisterController {
      */
     @ApiOperation(value =  "랜덤 코드 올바른지 확인")
     @GetMapping("/verify")
-    public String verify(
+    public boolean verify(
             @ApiParam(value = "!!이메일 주소 필수!!", required = true, example = "test@naver.com")
             @RequestParam String email,
                          @ApiParam(value = "!!랜덤코드 입력 필수!!", required = true, example = "******")
@@ -77,19 +77,22 @@ public class RegisterController {
 
         //쿠키 없으면 이메일 인증 필요
         if (oldBody == null) {
-            return "이메일 인증 필요";
+            //return "이메일 인증 필요";
+            return false;
         }
 
         //randomCode가 같으면
         if (body.getRandomCode().contains(oldBody.getRandomCode())) {
             oldBody.setVerification(true);
             httpSession.setAttribute(oldBody.getEmail(), oldBody);
-            return "이메일 인증 완료";
+            return true;
+            // return "이메일 인증 완료";
         }
 
         //randomCode 다르면
         else {
-            return "인증번호가 올바르지 않습니다.";
+            return false;
+            //return "인증번호가 올바르지 않습니다.";
         }
     }
 
