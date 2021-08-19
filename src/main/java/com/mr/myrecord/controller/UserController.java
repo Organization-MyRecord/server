@@ -1,12 +1,17 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.exception.UnAuthorizationError;
+import com.mr.myrecord.exception.UnAuthorizationException;
 import com.mr.myrecord.model.entity.User;
+import com.mr.myrecord.model.request.UserLoginRequest;
 import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.service.UserService;
+import com.mysql.cj.x.protobuf.MysqlxSession;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -18,8 +23,23 @@ public class UserController {
     /**
      * 유저 정보를 보여주는 api
      */
-    @GetMapping("/users/{id}")
-    public UserResponse read(@PathVariable Long id) {
-        return userService.read(id);
+    @GetMapping("/users")
+    public UserResponse read(
+            Authentication authentication
+    ) {
+        /**
+         * Authentication은 Authorization: Bearer <token> 형태!
+         */
+        Claims claims = (Claims) authentication.getPrincipal();
+        if(claims == null) {
+            throw new UnAuthorizationException("인가되지 않은 사용자");
+        }
+        String email = claims.get("email", String.class);
+        return userService.read(email);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody UserLoginRequest user) {
+        return userService.login(user.getEmail(), user.getPassword());
     }
 }
