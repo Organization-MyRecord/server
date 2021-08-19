@@ -50,16 +50,18 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     private Authentication getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization"); // 헤더에서 데이터 얻기
         if (token == null) {
-            throw new UnAuthorizationException("인가되지 않은 사용자");
+            //throw new UnAuthorizationException("인가되지 않은 사용자");
+            return null;
         }
 
-        //TODO:JwtUtil에서 claims 얻기
+        //JwtUtil에서 claims 얻기
         Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
         // "Bearer ".length() 이만큼은 제거!
         // 실제로는 Authorization: Bearer TOKEN.**** 이므로 Bearer를 뺴줘야함
-        if (claims == null) {
-            throw new UnAuthorizationException("인가되지 않은 사용자");
-        }
+//
+//        if (claims == null) {
+//            //throw new UnAuthorizationException("인가되지 않은 사용자");
+//        }
 
         Authentication authentication =
                 new UsernamePasswordAuthenticationToken(claims, null);

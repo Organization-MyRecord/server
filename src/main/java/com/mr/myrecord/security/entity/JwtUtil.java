@@ -25,6 +25,7 @@ public class JwtUtil {
         return Jwts.builder()
                 // claim 데이터 payload에 추가
                 .claim("email", email)
+                //TODO:토큰 만료시간 추가
 
                 // 서명 추가
                 .signWith(key, SignatureAlgorithm.HS256).compact();
