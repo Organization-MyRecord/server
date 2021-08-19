@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement() // 세션에 대해 관리
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션 정책
         ;
+
+        //TODO: antMatcher 처리 필요
     }
 
     @Bean
