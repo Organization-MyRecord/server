@@ -1,5 +1,6 @@
 package com.mr.myrecord.service;
 
+import com.mr.myrecord.exception.EmailNotFoundException;
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.RegisterRequest;
@@ -65,6 +66,9 @@ public class UserService {
 
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new EmailNotFoundException("존재하지 않는 이메일 입니다.");
+        }
         if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비번입니다.");
         }

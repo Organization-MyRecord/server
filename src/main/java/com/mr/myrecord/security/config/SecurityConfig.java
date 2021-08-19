@@ -18,6 +18,7 @@ import javax.servlet.Filter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //@Value("${jwt.secret}")
+    //TODO: secret 암호화하기.
     private String secret = "12345678901234567890123456789012";
 
     @Override
