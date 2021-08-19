@@ -1,8 +1,7 @@
 package com.mr.myrecord.security.entity;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.mr.myrecord.exception.MalformedJwt;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +31,21 @@ public class JwtUtil {
     }
 
     public Claims getClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token) //sign이 포함된 jwt
-                .getBody();
+        try {
+            Claims body = Jwts.parser()
+                    .setSigningKey(key)
+                    .parseClaimsJws(token) //sign이 포함된 jwt
+                    .getBody();
+            return body;
+        }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            throw new MalformedJwt("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {
+            throw new MalformedJwt("만료된 JWT 토큰입니다.");
+        } catch (UnsupportedJwtException e) {
+            throw new MalformedJwt("지원되지 않는 JWT 토큰입니다.");
+        } catch (IllegalArgumentException e) {
+            throw new MalformedJwt("JWT 토큰이 잘못되었습니다.");
+        }
+
     }
 }

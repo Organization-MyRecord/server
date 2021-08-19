@@ -39,8 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilter(filter)
                 .sessionManagement() // 세션에 대해 관리
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 세션 정책
-
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //TODO: antMatcher 처리 필요
     }
 
