@@ -70,7 +70,7 @@ public class UserService {
             throw new EmailNotFoundException("존재하지 않는 이메일 입니다.");
         }
         if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비번입니다.");
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         String accessToken = jwtUtil.createToken(email);
         return accessToken;
