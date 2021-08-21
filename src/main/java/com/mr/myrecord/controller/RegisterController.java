@@ -1,5 +1,4 @@
 package com.mr.myrecord.controller;
-
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.request.RegisterRequest;
 import com.mr.myrecord.service.MailService;
@@ -9,7 +8,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;

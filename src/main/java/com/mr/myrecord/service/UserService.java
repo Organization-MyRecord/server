@@ -1,15 +1,24 @@
 package com.mr.myrecord.service;
 
 import com.mr.myrecord.exception.EmailNotFoundException;
+import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
+import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.RegisterRequest;
+import com.mr.myrecord.model.response.PageResponse;
+import com.mr.myrecord.model.response.PostResponse;
 import com.mr.myrecord.model.response.UserResponse;
+import com.mr.myrecord.page.Pagination;
 import com.mr.myrecord.security.entity.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,22 +28,54 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtUtil jwtUtil;
 
-    public UserResponse read(String email) {
+    public PageResponse read(String email, Pageable pageable) {
         User resource = userRepository.findByEmail(email);
-        UserResponse user = UserResponse.builder()
-                .name(resource.getName())
-                .age(resource.getAge())
-                .content(resource.getContent())
-                .image(resource.getImage())
+        Page<Post> posts = postRepository.findByUserPostId(resource.getId(), pageable);
+        List<PostResponse> postList = posts.stream().map(post -> res(post))
+                .collect(Collectors.toList());
+        Pagination pagination = Pagination.builder()
+                .totalPages(posts.getTotalPages())
+                .totalElements(posts.getTotalElements())
+                .currentPage(posts.getNumber()+1)
+                .currentElements(posts.getNumberOfElements())
                 .build();
 
-        return user;
+        PageResponse myPage = PageResponse.builder()
+                .name(resource.getName())
+                .content(resource.getContent())
+                .major(resource.getMajor())
+                .detailMajor(resource.getDetailMajor())
+                .field(resource.getField())
+                .image(resource.getImage())
+                .age(resource.getAge())
+                .email(resource.getEmail())
+                .postNum(postRepository.findPostNum(resource.getId()))
+                .favoriteUserNum(userRepository.findFavoriteUserNum(resource.getId()))
+                .myPostList(postList)
+                .postPagination(pagination)
+                .build();
 
+        return myPage;
+
+    }
+
+    private PostResponse res(Post post) {
+        return PostResponse.builder()
+                .id(post.getId())
+                .userPostId(post.getUserPostId().getId())
+                .postName(post.getPostName())
+                .postImage(post.getPostImage())
+                .content(post.getContent())
+                .classification(post.getClassification())
+                .build();
     }
 
     public boolean emailCheck(String email) {

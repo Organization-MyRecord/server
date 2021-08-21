@@ -2,6 +2,7 @@ package com.mr.myrecord.controller;
 
 import com.mr.myrecord.exception.UnAuthorizationException;
 import com.mr.myrecord.model.request.UserLoginRequest;
+import com.mr.myrecord.model.response.PageResponse;
 import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.security.entity.JwtUtil;
 import com.mr.myrecord.service.UserService;
@@ -9,6 +10,9 @@ import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,6 +43,15 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         return ((User) auth.getPrincipal()).getUsername();
+    }
+
+    @ApiOperation(value = "마이 페이지", notes = "JWT 토큰 인증하고 마이 페이지 API 반환")
+    @GetMapping("/mypage")
+    public PageResponse mypage(@PageableDefault(sort = "postDate", direction = Sort.Direction.DESC, size=10)Pageable pageable) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        return userService.read(email, pageable);
     }
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
