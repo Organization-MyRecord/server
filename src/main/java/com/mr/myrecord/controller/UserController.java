@@ -6,6 +6,8 @@ import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.security.entity.JwtUtil;
 import com.mr.myrecord.service.UserService;
 import io.jsonwebtoken.Claims;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +31,6 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-
-    // TODO: user 정보 api 만들기
     /**
      * 유저 정보를 보여주는 api
      */
@@ -41,8 +41,12 @@ public class UserController {
         return ((User) auth.getPrincipal()).getUsername();
     }
 
+    @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
     @PostMapping("/authenticate")
-    public String generateToken(@RequestBody UserLoginRequest userLoginRequest) throws Exception {
+    public String generateToken(
+            @ApiParam(value = "!!이메일 주소, 비밀번호 필수!!", required = true, example = "email:test@naver.com, password:****")
+            @RequestBody UserLoginRequest userLoginRequest
+    ) throws Exception {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
