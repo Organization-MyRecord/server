@@ -3,49 +3,67 @@ package com.mr.myrecord.security.entity;
 import com.mr.myrecord.exception.MalformedJwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 public class JwtUtil {
 
     private Key key;
 
-    /**
-     * JWT 사용
-     */
     public JwtUtil(String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(String email) {
-        // JJWT 사용!
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public String generateToken(String email) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, email);
+    }
+
+    private String createToken(Map<String, Object> claims, String email) {
         return Jwts.builder()
-                // claim 데이터 payload에 추가
-                .claim("email", email)
-                //TODO:토큰 만료시간 추가
-
-                // 서명 추가
-                .signWith(key, SignatureAlgorithm.HS256).compact();
+                .setClaims(claims)
+                .setSubject(email)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+ 1000*60*60*10)) // 유효기간 10일
+        .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
-    public Claims getClaims(String token) {
-        try {
-            Claims body = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token) //sign이 포함된 jwt
-                    .getBody();
-            return body;
-        }catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new MalformedJwt("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            throw new MalformedJwt("만료된 JWT 토큰입니다.");
-        } catch (UnsupportedJwtException e) {
-            throw new MalformedJwt("지원되지 않는 JWT 토큰입니다.");
-        } catch (IllegalArgumentException e) {
-            throw new MalformedJwt("JWT 토큰이 잘못되었습니다.");
-        }
-
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String email = extractUsername(token);
+        return (email.equals(userDetails.getUsername())&&!isTokenExpired(token));
     }
+
+
 }

@@ -63,16 +63,4 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-    public String login(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if(user == null) {
-            throw new EmailNotFoundException("존재하지 않는 이메일 입니다.");
-        }
-        if(!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
-        String accessToken = jwtUtil.createToken(email);
-        return accessToken;
-    }
 }
