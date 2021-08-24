@@ -1,6 +1,7 @@
 package com.mr.myrecord.service;
 
 import com.mr.myrecord.exception.EmailNotFoundException;
+import com.mr.myrecord.model.entity.GenderEnum;
 import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.PostRepository;

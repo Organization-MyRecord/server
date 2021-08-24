@@ -18,6 +18,7 @@ public class RegisterRequest {
 
     private String name;
 
+    @ApiModelProperty(example = "남")
     private GenderEnum gender;
 
     private String field;
@@ -32,6 +33,7 @@ public class RegisterRequest {
 
     private String email;
 
+    @ApiModelProperty(hidden = true)
     private String randomCode;
 
     @ApiModelProperty(hidden = true)

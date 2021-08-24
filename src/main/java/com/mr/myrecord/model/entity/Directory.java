@@ -23,10 +23,10 @@ public class Directory {
     @ManyToOne
     private User userDirectoryId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "directoryId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "directoryId", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentDirectoryId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentDirectoryId", cascade = CascadeType.ALL)
     private List<Directory> directoryList = new ArrayList<>();
 
     @JoinColumn(name = "parent_directory_id")

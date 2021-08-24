@@ -46,13 +46,13 @@ public class User implements UserDetails {
 
     private int reportedCount = 3;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userDirectoryId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userDirectoryId", cascade = CascadeType.ALL)
     private List<Directory> directoryList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userCommentId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userCommentId", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userPostId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userPostId", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "favoriteUserId")
@@ -62,7 +62,7 @@ public class User implements UserDetails {
     @ManyToOne
     private User favoriteUserId;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "favoriteUserId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "favoriteUserId", cascade = CascadeType.ALL)
     private List<Post> favoritePostList = new ArrayList<>();
 
     @Override
