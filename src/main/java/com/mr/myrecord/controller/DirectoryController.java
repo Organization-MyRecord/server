@@ -1,6 +1,5 @@
 package com.mr.myrecord.controller;
 
-import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.service.DirectoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
