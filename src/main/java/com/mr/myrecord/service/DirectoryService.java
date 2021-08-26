@@ -4,6 +4,7 @@ import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.UserRepository;
+import com.mr.myrecord.model.request.DirectoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,9 @@ public class DirectoryService {
     @Autowired
     private DirectoryRepository directoryRepository;
 
-    public boolean create(String email, String name) {
+    public boolean create(String email, DirectoryRequest request) {
         User user = userRepository.findByEmail(email);
+        String name = request.getName();
 
         Directory isOk =  directoryRepository.findByDirectoryNameAndUserDirectoryId(name, user.getId());
         if(isOk == null) {

@@ -1,5 +1,6 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.model.request.DirectoryRequest;
 import com.mr.myrecord.service.DirectoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,11 +18,11 @@ public class DirectoryController {
     private DirectoryService directoryService;
 
     @PostMapping("/directory")
-    public boolean create(String name) {
+    public boolean create(DirectoryRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
 
-        return directoryService.create(email, name);
+        return directoryService.create(email, request);
     }
 
     @DeleteMapping("/directory/{name}")
