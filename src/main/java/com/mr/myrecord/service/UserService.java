@@ -1,15 +1,15 @@
 package com.mr.myrecord.service;
 
-import com.mr.myrecord.exception.EmailNotFoundException;
-import com.mr.myrecord.model.entity.GenderEnum;
+import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
+import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.RegisterRequest;
+import com.mr.myrecord.model.response.DirectoryResponse;
 import com.mr.myrecord.model.response.PageResponse;
 import com.mr.myrecord.model.response.PostResponse;
-import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.page.Pagination;
 import com.mr.myrecord.security.entity.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.*;
+
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,13 +36,25 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
+    private DirectoryRepository directoryRepository;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     public PageResponse read(String email, Pageable pageable) {
         User resource = userRepository.findByEmail(email);
-        Page<Post> posts = postRepository.findByUserPostId(resource.getId(), pageable);
-        List<PostResponse> postList = posts.stream().map(post -> res(post))
+
+        List<Directory> directories = directoryRepository.findByUserId(resource.getId());
+        List<DirectoryResponse> directoryList = directories
+                .stream()
+                .map(directory -> directoryResponse(directory))
                 .collect(Collectors.toList());
+
+        Page<Post> posts = postRepository.findByUserPostId(resource.getId(), pageable);
+
+        List<PostResponse> postList = posts.stream().map(post -> postPageResponse(post, resource.getField()))
+                .collect(Collectors.toList());
+
         Pagination pagination = Pagination.builder()
                 .totalPages(posts.getTotalPages())
                 .totalElements(posts.getTotalElements())
@@ -61,6 +74,7 @@ public class UserService {
                 .postNum(postRepository.findPostNum(resource.getId()))
                 .favoriteUserNum(userRepository.findFavoriteUserNum(resource.getId()))
                 .myPostList(postList)
+                .directoryList(directoryList)
                 .postPagination(pagination)
                 .build();
 
@@ -68,14 +82,35 @@ public class UserService {
 
     }
 
-    private PostResponse res(Post post) {
+    private DirectoryResponse directoryResponse(Directory directory) {
+        List<Post> posts = directory.getPostList();
+        List<PostResponse> postList = posts.stream().map(post -> postResponse(post))
+                .collect(Collectors.toList());
+
+        return DirectoryResponse.builder()
+                .directoryName(directory.getDirectoryName())
+                .postList(postList)
+                .build();
+    }
+
+    private PostResponse postResponse(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
                 .postImage(post.getPostImage())
                 .content(post.getContent())
-                .classification(post.getClassification())
+                .build();
+    }
+
+    private PostResponse postPageResponse(Post post, String field) {
+        return PostResponse.builder()
+                .id(post.getId())
+                .userPostId(post.getUserPostId().getId())
+                .postName(post.getPostName())
+                .postImage(post.getPostImage())
+                .content(post.getContent())
+                .classification(field)
                 .build();
     }
 

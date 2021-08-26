@@ -26,11 +26,4 @@ public class Directory {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "directoryId", cascade = CascadeType.ALL)
     private List<Post> postList = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentDirectoryId", cascade = CascadeType.ALL)
-    private List<Directory> directoryList = new ArrayList<>();
-
-    @JoinColumn(name = "parent_directory_id")
-    @ManyToOne
-    private Directory parentDirectoryId;
-
 }
