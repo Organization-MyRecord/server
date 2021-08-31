@@ -50,8 +50,8 @@ public class MainPageService {
          * MainPageResponse에 각각 저장해서 리턴
          */
         MainPageResponse mainPageResponse = MainPageResponse.builder()
-                .popularPostResponseList(postList)
                 .recentMyPostResponseList(myPostList)
+                .popularPostResponseList(postList)
                 .recentEveryPostResponseList(everyPostList)
                 .build();
 
