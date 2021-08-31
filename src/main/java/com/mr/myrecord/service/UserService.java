@@ -111,6 +111,7 @@ public class UserService {
                 .postImage(post.getPostImage())
                 .content(post.getContent())
                 .classification(field)
+                .views(post.getViews())
                 .build();
     }
 

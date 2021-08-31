@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.util.*;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
@@ -15,4 +16,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT u FROM Post u  WHERE u.userPostId.id = ?1")
     Page<Post> findByUserPostId(Long id, Pageable pageable);
+
+    List<Post> findTop6ByOrderByViewsDesc();
+
+    List<Post> findTop3ByUserPostId_IdOrderByPostDateDesc(Long userPostId);
+
+    List<Post> findTop3ByOrderByPostDateDesc();
 }

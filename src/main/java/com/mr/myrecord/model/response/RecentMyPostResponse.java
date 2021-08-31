@@ -1,6 +1,5 @@
 package com.mr.myrecord.model.response;
 
-import com.mr.myrecord.page.Pagination;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,8 +12,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class PostResponse {
-
+public class RecentMyPostResponse {
     private Long id;
 
     @ApiModelProperty(example = "포스트 주인 id")

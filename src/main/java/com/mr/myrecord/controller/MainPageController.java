@@ -1,27 +1,35 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.repository.PostRepository;
+import com.mr.myrecord.model.response.MainPageResponse;
+import com.mr.myrecord.service.MainPageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
+import java.util.*;
 
 @RestController
-public class ApiController {
+public class MainPageController {
 
-    @GetMapping("/hello")
-    public String hello() {
+    @Autowired
+    private MainPageService mainPageService;
+
+    @GetMapping("/main")
+    public MainPageResponse mainPage() {
+        // 로그인한 경우 리턴
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
-            return "Hello MyRecord";
-        }catch (Exception e) {
-            String s = LocalDateTime.now().toString();
-            return s;
+            return mainPageService.read(email);
+        }
+        // 로그인 안된 경우 리턴
+        catch(Exception e) {
+            return mainPageService.unLoginRead();
         }
     }
 

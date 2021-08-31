@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @Data
 @Builder
-@ToString(exclude =  {"directoryId", "parentDirectoryId", "parent_directory_id"})
+@ToString(exclude =  {"directoryId"})
 public class Directory {
 
     @Id
