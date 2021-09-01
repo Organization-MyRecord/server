@@ -50,6 +50,7 @@ public class MainPageService {
          * MainPageResponse에 각각 저장해서 리턴
          */
         MainPageResponse mainPageResponse = MainPageResponse.builder()
+                .userImage(user.getImage())
                 .recentMyPostResponseList(myPostList)
                 .popularPostResponseList(postList)
                 .recentEveryPostResponseList(everyPostList)
