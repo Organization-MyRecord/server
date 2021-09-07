@@ -2,8 +2,10 @@ package com.mr.myrecord.controller;
 
 import com.mr.myrecord.exception.UnAuthorizationException;
 import com.mr.myrecord.model.request.UserLoginRequest;
+import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.PageResponse;
 import com.mr.myrecord.model.response.UserResponse;
+import com.mr.myrecord.model.response.UserUpdateResponse;
 import com.mr.myrecord.security.entity.JwtUtil;
 import com.mr.myrecord.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -18,10 +20,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
@@ -52,6 +51,15 @@ public class UserController {
         String email = ((User) auth.getPrincipal()).getUsername();
 
         return userService.read(email, pageable);
+    }
+
+    @ApiOperation(value = "개인 정보 수정", notes = "개인 정보 수정 JWT 토큰 필요")
+    @PutMapping("/mypage")
+    public UserUpdateResponse update(UserUpdateRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        return userService.update(email, request);
     }
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")

@@ -1,6 +1,7 @@
 package com.mr.myrecord.model.entity;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,6 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Data
 @Builder
+@Accessors(chain = true)
 @ToString(exclude = {"userDirectoryId", "userCommentId", "userPostId", "favoriteUserId", "favoriteUserId", "favorite_user_id" })
 public class User implements UserDetails {
 

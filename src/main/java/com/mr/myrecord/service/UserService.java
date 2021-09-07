@@ -7,9 +7,11 @@ import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.RegisterRequest;
+import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.DirectoryResponse;
 import com.mr.myrecord.model.response.PageResponse;
 import com.mr.myrecord.model.response.PostResponse;
+import com.mr.myrecord.model.response.UserUpdateResponse;
 import com.mr.myrecord.page.Pagination;
 import com.mr.myrecord.security.entity.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,5 +142,24 @@ public class UserService {
                 .build();
 
         return userRepository.save(user);
+    }
+
+    public UserUpdateResponse update(String email, UserUpdateRequest request) {
+        User user = userRepository.findByEmail(email);
+
+        user.setImage(request.getUserImage())
+        .setName(request.getUserName())
+        .setContent(request.getDescription());
+
+        userRepository.save(user);
+
+        UserUpdateResponse userUpdateResponse = UserUpdateResponse.builder()
+                .userName(user.getName())
+                .description(user.getContent())
+                .userImage(user.getImage())
+                .build();
+
+        return userUpdateResponse;
+
     }
 }
