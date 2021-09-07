@@ -42,6 +42,7 @@ public class PostService {
                 .postDate(LocalDateTime.now())
                 .classification(user.getField())
                 .content(request.getContent())
+                .postImage(request.getPostImage())
                 .views(0L)
                 .postUserEmail(email)
                 .directoryId(directory)
@@ -58,6 +59,8 @@ public class PostService {
                 .content(newPost.getContent())
                 .views(newPost.getViews())
                 .userPostId(newPost.getUserPostId().getId())
+                .postImage(newPost.getPostImage())
+                .postUserEmail(newPost.getPostUserEmail())
                 .build();
         return postResponse;
     }
@@ -76,6 +79,7 @@ public class PostService {
                 .newPostName(post.getPostName())
                 .postDate(post.getPostDate())
                 .content(post.getContent())
+                .postImage(post.getPostImage())
                 .build();
 
         return res;
@@ -87,6 +91,7 @@ public class PostService {
         if (post!=null) {
             Post resource = post.get();
             PostReadResponse res = PostReadResponse.builder()
+                    .postImage(resource.getPostImage())
                     .classification(resource.getClassification())
                     .content(resource.getContent())
                     .postName(resource.getPostName())

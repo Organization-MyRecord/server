@@ -18,6 +18,9 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    /**
+     * 게시물 생성
+     */
     @PostMapping("/create_post")
     public PostResponse create(PostRequest postRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -25,6 +28,9 @@ public class PostController {
         return postService.create(email, postRequest);
     }
 
+    /**
+     * 게시물 수정
+     */
     @PutMapping("/update_post")
     public PostUpdateResponse update(PostUpdateRequest postUpdateRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -32,11 +38,17 @@ public class PostController {
         return postService.update(email, postUpdateRequest);
     }
 
+    /**
+     * 게시물 불러오기
+     */
     @GetMapping("/post/{postId}")
     public PostReadResponse read(@PathVariable Long postId) {
         return postService.read(postId);
     }
 
+    /**
+     * 게시물 삭제
+     */
     @DeleteMapping("/post_delete/{postId}")
     public boolean delete(@PathVariable Long postId) {
         return postService.delete(postId);

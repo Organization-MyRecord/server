@@ -62,6 +62,7 @@ public class MainPageService {
     private PopularPostResponse popularPostResponse(Post post) {
         return PopularPostResponse.builder()
                 .id(post.getId())
+                .postImage(post.getPostImage())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
                 .postUserEmail(post.getPostUserEmail())
@@ -74,6 +75,7 @@ public class MainPageService {
     private RecentMyPostResponse myPostResponse(Post post) {
         return RecentMyPostResponse.builder()
                 .id(post.getId())
+                .postImage(post.getPostImage())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
                 .postUserEmail(post.getPostUserEmail())
@@ -86,6 +88,7 @@ public class MainPageService {
     private RecentEveryPostResponse everyPostResponse(Post post) {
         return RecentEveryPostResponse.builder()
                 .id(post.getId())
+                .postImage(post.getPostImage())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
                 .postUserEmail(post.getPostUserEmail())

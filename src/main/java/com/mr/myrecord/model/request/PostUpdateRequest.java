@@ -24,4 +24,5 @@ public class PostUpdateRequest {
     private String newPostName;
 
 
+
 }

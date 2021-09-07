@@ -24,4 +24,7 @@ public class PostUpdateResponse {
 
     @ApiModelProperty(example = "새로운 게시물 제목")
     private String newPostName;
+
+    @ApiModelProperty(example = "게시물 이미지")
+    private String postImage;
 }

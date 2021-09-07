@@ -18,5 +18,7 @@ public class PostRequest {
 
     private String content;
 
+    private String postImage;
+
     private String directoryName;
 }

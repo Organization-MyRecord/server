@@ -31,6 +31,8 @@ public class Post {
 
     private String postUserEmail;
 
+    private String postImage;
+
     private Long views;
 
     @JoinColumn(name = "user_post_id")

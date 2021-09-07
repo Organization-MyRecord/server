@@ -33,4 +33,7 @@ public class RecentMyPostResponse {
     @ApiModelProperty(example = "10000")
     private Long views;
 
+    @ApiModelProperty(example = "게시물 이미지")
+    private String postImage;
+
 }
