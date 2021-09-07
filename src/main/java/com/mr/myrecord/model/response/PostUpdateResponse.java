@@ -15,8 +15,6 @@ import java.time.LocalDateTime;
 @Builder
 @Accessors(chain = true)
 public class PostUpdateResponse {
-    @ApiModelProperty(example = "게시물 제목")
-    private String postName;
 
     @ApiModelProperty(example = "게시물 수정 시간")
     private LocalDateTime postDate;

@@ -14,15 +14,9 @@ import java.time.LocalDateTime;
 public class PostRequest {
     private String postName;
 
-    private LocalDateTime postDate;
-
     private String classification;
 
     private String content;
-
-    private String postImage;
-
-    private Long views;
 
     private String directoryName;
 }

@@ -14,14 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 public class PostUpdateRequest {
 
-    @ApiModelProperty(example = "디렉토리 이름")
-    private String directoryName;
-
-    @ApiModelProperty(example = "게시물 제목")
-    private String postName;
-
-    @ApiModelProperty(example = "게시물 수정 시간")
-    private LocalDateTime postDate;
+    @ApiModelProperty(example = "게시물 id")
+    private Long postId;
 
     @ApiModelProperty(example = "게시물 내용")
     private String content;

@@ -24,6 +24,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findTop3ByOrderByPostDateDesc();
 
-    @Query("select u from Post u where u.directoryId.id=?1 and u.userPostId.id=?2 and u.postName=?3")
-    Post findByDirectoryIdAndUserPostIdAndPostName(Long directoryId, Long id, String postName);
+    @Query("select u from Post u where u.userPostId.id=?1 and u.id=?2")
+    Post findByUserPostIdAndPostId(Long id, Long postId);
 }

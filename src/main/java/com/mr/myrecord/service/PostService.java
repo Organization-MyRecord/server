@@ -64,8 +64,7 @@ public class PostService {
 
     public PostUpdateResponse update(String email, PostUpdateRequest request) {
         User user = userRepository.findByEmail(email);
-        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(request.getDirectoryName(), user.getId());
-        Post post = postRepository.findByDirectoryIdAndUserPostIdAndPostName(directory.getId(), user.getId(), request.getPostName());
+        Post post = postRepository.findByUserPostIdAndPostId(user.getId(), request.getPostId());
 
         post.setPostName(request.getNewPostName())
                 .setContent(request.getContent())
