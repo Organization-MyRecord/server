@@ -1,13 +1,10 @@
 package com.mr.myrecord;
 
-import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.model.entity.GenderEnum;
-import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
-import com.mr.myrecord.model.response.DirectoryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
-import java.time.LocalDateTime;
 
 @Component
 public class Runner implements ApplicationRunner {

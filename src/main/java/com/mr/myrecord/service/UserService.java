@@ -98,7 +98,7 @@ public class UserService {
                 .id(post.getId())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
-                .postImage(post.getPostImage())
+                .postUserEmail(post.getPostUserEmail())
                 .content(post.getContent())
                 .build();
     }
@@ -108,7 +108,7 @@ public class UserService {
                 .id(post.getId())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
-                .postImage(post.getPostImage())
+                .postUserEmail(post.getPostUserEmail())
                 .content(post.getContent())
                 .classification(field)
                 .views(post.getViews())

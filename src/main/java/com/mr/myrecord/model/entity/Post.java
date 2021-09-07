@@ -1,6 +1,7 @@
 package com.mr.myrecord.model.entity;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.*;
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @Data
 @Builder
+@Accessors(chain = true)
 @ToString(exclude = {"postId", "user_post_id", "directory_id", "favorite_user_id"})
 public class Post {
 
@@ -27,7 +29,7 @@ public class Post {
 
     private String content;
 
-    private String postImage;
+    private String postUserEmail;
 
     private Long views;
 

@@ -22,7 +22,7 @@ public class RecentEveryPostResponse {
     private String postName;
 
     @ApiModelProperty(example = "게시물 이미지")
-    private String postImage;
+    private String postUserEmail;
 
     @ApiModelProperty(example = "게시물 내용")
     private String content;

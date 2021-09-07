@@ -22,8 +22,8 @@ public class PopularPostResponse {
     @ApiModelProperty(example = "게시물 제목")
     private String postName;
 
-    @ApiModelProperty(example = "게시물 이미지")
-    private String postImage;
+    @ApiModelProperty(example = "게시물 주인 email")
+    private String postUserEmail;
 
     @ApiModelProperty(example = "게시물 내용")
     private String content;

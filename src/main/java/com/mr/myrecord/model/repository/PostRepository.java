@@ -1,5 +1,6 @@
 package com.mr.myrecord.model.repository;
 
+import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.model.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,4 +23,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findTop3ByUserPostId_IdOrderByPostDateDesc(Long userPostId);
 
     List<Post> findTop3ByOrderByPostDateDesc();
+
+    @Query("select u from Post u where u.directoryId.id=?1 and u.userPostId.id=?2 and u.postName=?3")
+    Post findByDirectoryIdAndUserPostIdAndPostName(Long directoryId, Long id, String postName);
 }
