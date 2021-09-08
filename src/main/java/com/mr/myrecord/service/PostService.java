@@ -33,16 +33,20 @@ public class PostService {
     /**
      * post 생성 api
      */
-    public PostResponse create(String email, PostRequest request) {
+    public PostResponse create(String email,
+                               String postName,
+                               String postImage,
+                               String directoryName,
+                               String content) {
         User user = userRepository.findByEmail(email);
-        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(request.getDirectoryName(), user.getId());
+        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(directoryName, user.getId());
 
         Post newPost = Post.builder()
-                .postName(request.getPostName())
+                .postName(postName)
                 .postDate(LocalDateTime.now())
                 .classification(user.getField())
-                .content(request.getContent())
-                .postImage(request.getPostImage())
+                .content(content)
+                .postImage(postImage)
                 .views(0L)
                 .postUserEmail(email)
                 .directoryId(directory)
