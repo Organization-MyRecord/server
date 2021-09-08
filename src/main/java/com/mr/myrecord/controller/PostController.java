@@ -22,10 +22,10 @@ public class PostController {
      * 게시물 생성
      */
     @PostMapping("/create_post")
-    public PostResponse create(@RequestParam(value = "postName") String postName,
-                               @RequestParam(value = "content")String content,
-                               @RequestParam(value = "directoryName") String directoryName,
-                               @RequestParam(value = "postImage")String postImage) {
+    public PostResponse create(@RequestHeader(value = "postName") String postName,
+                               @RequestHeader(value = "content")String content,
+                               @RequestHeader(value = "directoryName") String directoryName,
+                               @RequestHeader(value = "postImage")String postImage) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
         return postService.create(email, postName, postImage, directoryName, content);

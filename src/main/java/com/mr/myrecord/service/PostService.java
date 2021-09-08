@@ -6,7 +6,6 @@ import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
-import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
 import com.mr.myrecord.model.response.PostReadResponse;
 import com.mr.myrecord.model.response.PostResponse;
