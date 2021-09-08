@@ -32,7 +32,7 @@ public class PostController {
      * 게시물 수정
      */
     @PutMapping("/update_post")
-    public PostUpdateResponse update(PostUpdateRequest postUpdateRequest) {
+    public PostUpdateResponse update(@RequestBody PostUpdateRequest postUpdateRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
         return postService.update(email, postUpdateRequest);

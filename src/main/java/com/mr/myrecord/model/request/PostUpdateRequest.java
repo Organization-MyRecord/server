@@ -14,13 +14,13 @@ import java.time.LocalDateTime;
 @Builder
 public class PostUpdateRequest {
 
-    @ApiModelProperty(example = "게시물 id")
+    @ApiModelProperty(example = "게시물 ID")
     private Long postId;
 
     @ApiModelProperty(example = "게시물 내용")
     private String content;
 
-    @ApiModelProperty(example = "새로운 게시물 제목")
+    @ApiModelProperty(example = "새로운 게시물 제목 or 수정하지 않으면 기존 게시물 제목")
     private String newPostName;
 
 
