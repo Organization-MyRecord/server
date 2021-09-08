@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,4 +37,7 @@ public class RecentEveryPostResponse {
 
     @ApiModelProperty(example = "게시물 이미지")
     private String postImage;
+
+    @ApiModelProperty(example = "게시물 생성 시간")
+    private LocalDateTime postDate;
 }

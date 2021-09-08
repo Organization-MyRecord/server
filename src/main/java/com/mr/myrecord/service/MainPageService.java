@@ -69,6 +69,7 @@ public class MainPageService {
                 .content(post.getContent())
                 .classification(post.getClassification())
                 .views(post.getViews())
+                .postDate(post.getPostDate())
                 .build();
     }
 
@@ -82,6 +83,7 @@ public class MainPageService {
                 .content(post.getContent())
                 .classification(post.getClassification())
                 .views(post.getViews())
+                .postDate(post.getPostDate())
                 .build();
     }
 
@@ -95,6 +97,7 @@ public class MainPageService {
                 .content(post.getContent())
                 .classification(post.getClassification())
                 .views(post.getViews())
+                .postDate(post.getPostDate())
                 .build();
     }
 
