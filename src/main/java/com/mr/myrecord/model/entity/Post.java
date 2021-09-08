@@ -27,6 +27,7 @@ public class Post {
 
     private String classification;
 
+    @Column(length = 100000)
     private String content;
 
     private String postUserEmail;

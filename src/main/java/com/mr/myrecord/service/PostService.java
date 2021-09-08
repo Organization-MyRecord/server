@@ -6,6 +6,7 @@ import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
+import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
 import com.mr.myrecord.model.response.PostReadResponse;
 import com.mr.myrecord.model.response.PostResponse;
@@ -32,20 +33,16 @@ public class PostService {
     /**
      * post 생성 api
      */
-    public PostResponse create(String email,
-                               String postName,
-                               String postImage,
-                               String directoryName,
-                               String content) {
+    public PostResponse create(String email, PostRequest request) {
         User user = userRepository.findByEmail(email);
-        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(directoryName, user.getId());
+        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(request.getDirectoryName(), user.getId());
 
         Post newPost = Post.builder()
-                .postName(postName)
+                .postName(request.getPostName())
                 .postDate(LocalDateTime.now())
                 .classification(user.getField())
-                .content(content)
-                .postImage(postImage)
+                .content(request.getContent())
+                .postImage(request.getPostImage())
                 .views(0L)
                 .postUserEmail(email)
                 .directoryId(directory)
