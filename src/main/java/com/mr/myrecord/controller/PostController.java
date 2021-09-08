@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 public class PostController {
 
@@ -22,12 +24,13 @@ public class PostController {
      * 게시물 생성
      */
     @PostMapping("/create_post")
-    public PostResponse create(@RequestHeader(value = "postName") String postName,
-                               @RequestHeader(value = "content")String content,
-                               @RequestHeader(value = "directoryName") String directoryName,
-                               @RequestHeader(value = "postImage")String postImage) {
+    public PostResponse create(HttpServletRequest req) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
+        String postName = req.getHeader("postName");
+        String directoryName = req.getHeader("directoryName");
+        String postImage = req.getHeader("postImage");
+        String content = req.getHeader("content");
         return postService.create(email, postName, postImage, directoryName, content);
     }
 
