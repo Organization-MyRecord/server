@@ -69,9 +69,9 @@ public class PostController {
     /**
      * 분야별 게시물 불러오기
      */
-    @GetMapping("/post/{field}")
+    @GetMapping("/post")
     @ApiOperation(value = "분야별 게시물 조회", notes = "field 분야 값 필수")
-    public FieldPostResponse fieldPost(@PathVariable String field,
+    public FieldPostResponse fieldPost(@RequestParam("field") String field,
                                        @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
         return postService.fieldPost(field, pageable);
     }
