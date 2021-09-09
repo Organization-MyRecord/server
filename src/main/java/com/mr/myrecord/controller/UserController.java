@@ -3,6 +3,7 @@ package com.mr.myrecord.controller;
 import com.mr.myrecord.exception.UnAuthorizationException;
 import com.mr.myrecord.model.request.UserLoginRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
+import com.mr.myrecord.model.response.LoginResponse;
 import com.mr.myrecord.model.response.PageResponse;
 import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.model.response.UserUpdateResponse;
@@ -44,12 +45,11 @@ public class UserController {
         return ((User) auth.getPrincipal()).getUsername();
     }
 
-    @ApiOperation(value = "마이 페이지", notes = "JWT 토큰 인증하고 마이 페이지 API 반환")
+    @ApiOperation(value = "마이 페이지 and 다른 유저 페이지", notes = "JWT 토큰 인증하고 마이 페이지 API 반환")
     @GetMapping("/mypage")
-    public PageResponse mypage(@PageableDefault(sort = "postDate", direction = Sort.Direction.DESC, size=10)Pageable pageable) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((User) auth.getPrincipal()).getUsername();
-
+    public PageResponse mypage(
+            @RequestParam String email,
+            @PageableDefault(sort = "postDate", direction = Sort.Direction.DESC, size=10)Pageable pageable) {
         return userService.read(email, pageable);
     }
 
@@ -64,7 +64,7 @@ public class UserController {
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
     @PostMapping("/authenticate")
-    public String generateToken(
+    public LoginResponse generateToken(
             @ApiParam(value = "!!이메일 주소, 비밀번호 필수!!", required = true, example = "email:test@naver.com, password:****")
             @RequestBody UserLoginRequest userLoginRequest
     ) throws Exception {
@@ -75,6 +75,6 @@ public class UserController {
         }catch (Exception e) {
             throw new Exception("invaild username/password");
         }
-        return jwtUtil.generateToken(userLoginRequest.getEmail());
+        return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
     }
 }

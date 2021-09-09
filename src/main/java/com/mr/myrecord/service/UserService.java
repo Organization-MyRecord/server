@@ -8,10 +8,7 @@ import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.RegisterRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
-import com.mr.myrecord.model.response.DirectoryResponse;
-import com.mr.myrecord.model.response.PageResponse;
-import com.mr.myrecord.model.response.PostResponse;
-import com.mr.myrecord.model.response.UserUpdateResponse;
+import com.mr.myrecord.model.response.*;
 import com.mr.myrecord.page.Pagination;
 import com.mr.myrecord.security.entity.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +95,7 @@ public class UserService {
     private PostResponse postResponse(Post post) {
         return PostResponse.builder()
                 .id(post.getId())
+                .postDate(post.getPostDate())
                 .userPostId(post.getUserPostId().getId())
                 .postName(post.getPostName())
                 .postUserEmail(post.getPostUserEmail())
@@ -108,7 +106,9 @@ public class UserService {
     private PostResponse postPageResponse(Post post, String field) {
         return PostResponse.builder()
                 .id(post.getId())
+                .postDate(post.getPostDate())
                 .userPostId(post.getUserPostId().getId())
+                .postImage(post.getPostImage())
                 .postName(post.getPostName())
                 .postUserEmail(post.getPostUserEmail())
                 .content(post.getContent())
@@ -161,5 +161,15 @@ public class UserService {
 
         return userUpdateResponse;
 
+    }
+
+    public LoginResponse login(String token, String email) {
+        User user = userRepository.findByEmail(email);
+        String image = user.getImage();
+        return LoginResponse.builder()
+                .token(token)
+                .email(email)
+                .image(image)
+                .build();
     }
 }

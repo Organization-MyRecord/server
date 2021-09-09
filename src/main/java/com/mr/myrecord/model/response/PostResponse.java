@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,5 +39,7 @@ public class PostResponse {
 
     @ApiModelProperty(example = "10000")
     private Long views;
+
+    private LocalDateTime postDate;
 
 }
