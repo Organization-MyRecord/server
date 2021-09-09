@@ -7,6 +7,7 @@ import com.mr.myrecord.model.response.PostReadResponse;
 import com.mr.myrecord.model.response.PostResponse;
 import com.mr.myrecord.model.response.PostUpdateResponse;
 import com.mr.myrecord.service.PostService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,6 +26,7 @@ public class PostController {
     /**
      * 게시물 생성
      */
+    @ApiOperation(value = "게시물 생성", notes = "JWT 토큰정보 필수")
     @PostMapping("/create_post")
     public PostResponse create(@RequestBody PostRequest postRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -35,6 +37,7 @@ public class PostController {
     /**
      * 게시물 수정
      */
+    @ApiOperation(value = "게시물 수정", notes = "JWT 토큰정보 필수")
     @PutMapping("/update_post")
     public PostUpdateResponse update(@RequestBody PostUpdateRequest postUpdateRequest) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -45,6 +48,7 @@ public class PostController {
     /**
      * 게시물 불러오기
      */
+    @ApiOperation(value = "게시물 보기", notes = "게시물 id 필수")
     @GetMapping("/post/{postId}")
     public PostReadResponse read(@PathVariable Long postId) {
         return postService.read(postId);
@@ -53,17 +57,21 @@ public class PostController {
     /**
      * 게시물 삭제
      */
+    @ApiOperation(value = "게시물 삭제", notes = "JWT토큰 & 게시물 id 필수")
     @DeleteMapping("/post_delete/{postId}")
     public boolean delete(@PathVariable Long postId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
         return postService.delete(postId);
     }
 
     /**
      * 분야별 게시물 불러오기
-     *
      */
-    @GetMapping("/post")
-    public FieldPostResponse fieldPost(@RequestParam("field") String field,
+    @GetMapping("/post/{field}")
+    @ApiOperation(value = "분야별 게시물 조회", notes = "field 분야 값 필수")
+    public FieldPostResponse fieldPost(@PathVariable String field,
                                        @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
         return postService.fieldPost(field, pageable);
     }
