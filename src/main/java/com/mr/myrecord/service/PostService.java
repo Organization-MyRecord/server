@@ -8,15 +8,21 @@ import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
+import com.mr.myrecord.model.response.FieldPostResponse;
 import com.mr.myrecord.model.response.PostReadResponse;
 import com.mr.myrecord.model.response.PostResponse;
 import com.mr.myrecord.model.response.PostUpdateResponse;
+import com.mr.myrecord.page.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -116,5 +122,39 @@ public class PostService {
             return false;
         }
         return true;
+    }
+
+    public FieldPostResponse fieldPost(String field, Pageable pageable) {
+
+        Page<Post> posts = postRepository.findByClassification(field, pageable);
+
+        List<PostResponse> postList = posts.stream().map(post -> postPageResponse(post, field))
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(posts.getTotalPages())
+                .totalElements(posts.getTotalElements())
+                .currentPage(posts.getNumber()+1)
+                .currentElements(posts.getNumberOfElements())
+                .build();
+
+        return FieldPostResponse.builder()
+                .myPostList(postList)
+                .postPagination(pagination)
+                .build();
+    }
+
+    private PostResponse postPageResponse(Post post, String field) {
+        return PostResponse.builder()
+                .id(post.getId())
+                .postDate(post.getPostDate())
+                .userPostId(post.getUserPostId().getId())
+                .postImage(post.getPostImage())
+                .postName(post.getPostName())
+                .postUserEmail(post.getPostUserEmail())
+                .content(post.getContent())
+                .classification(field)
+                .views(post.getViews())
+                .build();
     }
 }

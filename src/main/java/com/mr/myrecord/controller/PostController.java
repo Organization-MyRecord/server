@@ -2,11 +2,15 @@ package com.mr.myrecord.controller;
 
 import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
+import com.mr.myrecord.model.response.FieldPostResponse;
 import com.mr.myrecord.model.response.PostReadResponse;
 import com.mr.myrecord.model.response.PostResponse;
 import com.mr.myrecord.model.response.PostUpdateResponse;
 import com.mr.myrecord.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -52,5 +56,15 @@ public class PostController {
     @DeleteMapping("/post_delete/{postId}")
     public boolean delete(@PathVariable Long postId) {
         return postService.delete(postId);
+    }
+
+    /**
+     * 분야별 게시물 불러오기
+     *
+     */
+    @GetMapping("/post")
+    public FieldPostResponse fieldPost(@RequestParam("field") String field,
+                                       @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
+        return postService.fieldPost(field, pageable);
     }
 }
