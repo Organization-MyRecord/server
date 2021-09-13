@@ -20,7 +20,8 @@ public class ApiController {
             String email = ((User) auth.getPrincipal()).getUsername();
             return "Hello MyRecord";
         }catch (Exception e) {
-            String s = LocalDateTime.now().toString();
+            String s
+                    = LocalDateTime.now().toString();
             return s;
         }
     }
