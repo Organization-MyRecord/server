@@ -63,7 +63,7 @@ public class CommentService {
 
         CommentResponse res = CommentResponse.builder()
                 .comment(comment.getComment())
-                .userEmail(email)
+                .userName(user.getName())
                 .userImage(user.getImage())
                 .postId(postId)
                 .commentList(new ArrayList<>())

@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -169,7 +168,7 @@ public class PostService {
                 .commentList(commentResponseList)
                 .commentTime(comment.getCommentTime())
                 .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
-                .userEmail(comment.getUserCommentId().getEmail())
+                .userName(comment.getUserCommentId().getName())
                 .userImage(comment.getUserCommentId().getImage())
                 .build();
     }
@@ -180,7 +179,7 @@ public class PostService {
                 .commentList(comment.getCommentList())
                 .commentTime(comment.getCommentTime())
                 .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
-                .userEmail(comment.getUserCommentId().getEmail())
+                .userName(comment.getUserCommentId().getName())
                 .userImage(comment.getUserCommentId().getImage())
                 .build();
     }
