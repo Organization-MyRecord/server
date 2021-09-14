@@ -17,7 +17,7 @@ public class CommentController {
     private CommentService commentService;
 
     /**
-     * 게시물에 처음 댓글 작성
+     * 게시물에 댓글 작성
      */
     @PostMapping("/comment/{postId}")
     public CommentResponse createComment(@PathVariable Long postId,
@@ -28,6 +28,9 @@ public class CommentController {
         return commentService.createComment(email, postId, commentRequest);
     }
 
+    /**
+     * 게시물 댓글 수정
+     */
     @PutMapping("/comment/{postId}")
     public CommentResponse updateComment(@PathVariable Long postId,
                                          @RequestBody CommentUpdateRequest commentRequest) throws Exception {

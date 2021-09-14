@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DirectoryController {
@@ -18,11 +15,19 @@ public class DirectoryController {
     private DirectoryService directoryService;
 
     @PostMapping("/directory")
-    public boolean create(DirectoryRequest request) {
+    public boolean create(@RequestBody DirectoryRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
 
         return directoryService.create(email, request);
+    }
+
+    @PutMapping("/directory/{name}")
+    public boolean update(@PathVariable String name, @RequestBody DirectoryRequest directoryRequest) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        return directoryService.update(email, name, directoryRequest);
     }
 
     @DeleteMapping("/directory/{name}")

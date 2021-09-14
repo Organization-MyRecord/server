@@ -39,9 +39,13 @@ public class PostService {
     /**
      * post 생성 api
      */
-    public PostResponse create(String email, PostRequest request) {
+    public PostResponse create(String email, PostRequest request) throws Exception {
         User user = userRepository.findByEmail(email);
         Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(request.getDirectoryName(), user.getId());
+        // TODO: 에러처리
+//        if (directory == null) {
+//            throw new Exception("디렉토리를 지정하지 않았습니다.");
+//        }
 
         Post newPost = Post.builder()
                 .postName(request.getPostName())

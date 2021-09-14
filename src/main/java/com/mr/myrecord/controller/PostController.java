@@ -28,7 +28,7 @@ public class PostController {
      */
     @ApiOperation(value = "게시물 생성", notes = "JWT 토큰정보 필수")
     @PostMapping("/create_post")
-    public PostResponse create(@RequestBody PostRequest postRequest) {
+    public PostResponse create(@RequestBody PostRequest postRequest) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = ((User) auth.getPrincipal()).getUsername();
         return postService.create(email, postRequest);

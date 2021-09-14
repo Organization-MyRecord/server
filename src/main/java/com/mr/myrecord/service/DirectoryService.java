@@ -7,6 +7,7 @@ import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.DirectoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 
@@ -53,5 +54,14 @@ public class DirectoryService {
             return true;
         }
         return false;
+    }
+
+    public boolean update(String email, String name, DirectoryRequest directoryRequest) {
+        User user = userRepository.findByEmail(email);
+        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(name, user.getId());
+        if (directoryRequest.getName() == "") return false;
+        directory.setDirectoryName(directoryRequest.getName());
+        directoryRepository.save(directory);
+        return true;
     }
 }

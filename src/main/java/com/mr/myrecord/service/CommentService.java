@@ -75,6 +75,9 @@ public class CommentService {
 
     }
 
+    /**
+     * 댓글을 수정 할때 user의 id와 댓글 id를 가진 댓글을 찾아 수정
+     */
     public CommentResponse updateComment(String email, CommentUpdateRequest commentRequest) throws Exception {
         User user = userRepository.findByEmail(email);
         Comment comment = commentRepository.findByIdAndUserCommentId(commentRequest.getCommentId(), user.getId());
@@ -94,6 +97,9 @@ public class CommentService {
         return res;
     }
 
+    /**
+     * 댓글을 삭제 할때 user의 id와 댓글 id를 가진 댓글을 찾아 삭제
+     */
     public boolean deleteComment(String email, Long commentId){
         User user = userRepository.findByEmail(email);
         Comment comment = commentRepository.findByIdAndUserCommentId(commentId, user.getId());
