@@ -1,17 +1,16 @@
 package com.mr.myrecord.service;
 
+import com.mr.myrecord.model.entity.Comment;
 import com.mr.myrecord.model.entity.Directory;
 import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
+import com.mr.myrecord.model.repository.CommentRepository;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
-import com.mr.myrecord.model.response.FieldPostResponse;
-import com.mr.myrecord.model.response.PostReadResponse;
-import com.mr.myrecord.model.response.PostResponse;
-import com.mr.myrecord.model.response.PostUpdateResponse;
+import com.mr.myrecord.model.response.*;
 import com.mr.myrecord.page.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,6 +35,8 @@ public class PostService {
     @Autowired
     private DirectoryRepository directoryRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
     /**
      * post 생성 api
      */
@@ -92,26 +93,41 @@ public class PostService {
     }
 
     public PostReadResponse read(Long postId) {
-        Optional<Post> post = postRepository.findById(postId);
-
-        if (post!=null) {
-            Post resource = post.get();
+        Post resource = postRepository.findById(postId).orElse(null);
+        List<Comment> commentList = commentRepository.findByHello(postId, true);
+        List<CommentResponse> commentResponseList = commentList.stream().map(comment -> commentResponse(comment))
+                .collect(Collectors.toList());
+        if (commentList.size()==0) {
             PostReadResponse res = PostReadResponse.builder()
                     .postImage(resource.getPostImage())
                     .classification(resource.getClassification())
                     .content(resource.getContent())
                     .postName(resource.getPostName())
                     .postUserEmail(resource.getPostUserEmail())
-                    .views(resource.getViews()+1L)
+                    .views(resource.getViews() + 1L)
                     .id(resource.getId())
+                    .commentList(commentResponseList)
                     .build();
-            resource.setViews(resource.getViews()+1L);
+            resource.setViews(resource.getViews() + 1L);
             postRepository.save(resource);
             return res;
         }
         else {
-            return new PostReadResponse();
+            PostReadResponse res2 = PostReadResponse.builder()
+                    .postImage(resource.getPostImage())
+                    .classification(resource.getClassification())
+                    .content(resource.getContent())
+                    .postName(resource.getPostName())
+                    .postUserEmail(resource.getPostUserEmail())
+                    .views(resource.getViews() + 1L)
+                    .id(resource.getId())
+                    .commentList(commentResponseList)
+                    .build();
+            resource.setViews(resource.getViews() + 1L);
+            postRepository.save(resource);
+            return res2;
         }
+
     }
 
     public boolean delete(Long postId) {
@@ -143,6 +159,32 @@ public class PostService {
                 .postPagination(pagination)
                 .build();
     }
+
+    private CommentResponse commentResponse(Comment comment) {
+        List<NestedCommentResponse> commentResponseList = comment.getCommentList().stream().map(nestedComment -> nestedCommentResponse(nestedComment))
+                .collect(Collectors.toList());
+        return CommentResponse.builder()
+                .comment(comment.getComment())
+                .postId(comment.getPostId().getId())
+                .commentList(commentResponseList)
+                .commentTime(comment.getCommentTime())
+                .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
+                .userEmail(comment.getUserCommentId().getEmail())
+                .userImage(comment.getUserCommentId().getImage())
+                .build();
+    }
+    private NestedCommentResponse nestedCommentResponse(Comment comment) {
+        return NestedCommentResponse.builder()
+                .comment(comment.getComment())
+                .postId(comment.getPostId().getId())
+                .commentList(comment.getCommentList())
+                .commentTime(comment.getCommentTime())
+                .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
+                .userEmail(comment.getUserCommentId().getEmail())
+                .userImage(comment.getUserCommentId().getImage())
+                .build();
+    }
+
 
     private PostResponse postPageResponse(Post post, String field) {
         return PostResponse.builder()

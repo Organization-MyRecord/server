@@ -1,17 +1,20 @@
 package com.mr.myrecord.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
-@ToString(exclude = {"parentCommentId", "parent_comment_id", "user_comment_id", "post_id"})
+@ToString(exclude = { "parentCommentId", "userCommentId", "postId", "commentList"})
 public class Comment {
 
     @Id
@@ -20,18 +23,23 @@ public class Comment {
 
     private String comment;
 
-    @JoinColumn(name = "user_comment_id")
+    private boolean firstComment;
+
+    private LocalDateTime commentTime;
+
+    @JoinColumn(name = "userCommentId")
     @ManyToOne
     private User userCommentId;
 
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "postId")
     @ManyToOne
     private Post postId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentCommentId")
     private List<Comment> commentList = new ArrayList<>();
 
-    @JoinColumn(name = "parent_comment_id")
+    @JoinColumn(name = "parentCommentId")
     @ManyToOne
     private Comment parentCommentId;
+
 }

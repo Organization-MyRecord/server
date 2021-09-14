@@ -11,6 +11,7 @@ import com.mr.myrecord.model.response.CommentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Service
@@ -38,6 +39,8 @@ public class CommentService {
                     .userCommentId(user)
                     .postId(post)
                     .parentCommentId(null)
+                    .firstComment(true)
+                    .commentTime(LocalDateTime.now())
                     .commentList(new ArrayList<>())
                     .build();
         }
@@ -51,6 +54,8 @@ public class CommentService {
                     .userCommentId(user)
                     .postId(post)
                     .parentCommentId(parentComment)
+                    .commentTime(LocalDateTime.now())
+                    .firstComment(false)
                     .commentList(new ArrayList<>())
                     .build();
         }
@@ -63,6 +68,7 @@ public class CommentService {
                 .postId(postId)
                 .commentList(new ArrayList<>())
                 .parentCommendId(commentRequest.getParentCommentId())
+                .commentTime(LocalDateTime.now())
                 .build();
 
         return res;

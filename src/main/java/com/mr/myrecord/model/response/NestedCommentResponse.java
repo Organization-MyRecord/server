@@ -7,14 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CommentResponse {
+public class NestedCommentResponse {
 
     private String userEmail;
 
@@ -28,7 +28,6 @@ public class CommentResponse {
 
     private LocalDateTime commentTime;
 
-    private List<NestedCommentResponse> commentList = new ArrayList<>();
-
+    private List<Comment> commentList = new ArrayList<>();
 
 }

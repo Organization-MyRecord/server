@@ -11,10 +11,11 @@ import java.util.ArrayList;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"postId", "user_post_id", "directory_id", "favorite_user_id"})
+@ToString(exclude = {"postId", "userPostId", "directoryId", "favoriteUserId", "commentList"})
 public class Post {
 
     @Id
@@ -36,18 +37,18 @@ public class Post {
 
     private Long views;
 
-    @JoinColumn(name = "user_post_id")
+    @JoinColumn(name = "userPostId")
     @ManyToOne
     private User userPostId;
 
-    @JoinColumn(name = "directory_id")
+    @JoinColumn(name = "directoryId")
     @ManyToOne
     private Directory directoryId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @JoinColumn(name = "favorite_user_id")
+    @JoinColumn(name = "favoriteUserId")
     @ManyToOne
     private User favoriteUserId;
 }

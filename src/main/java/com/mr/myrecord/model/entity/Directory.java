@@ -9,9 +9,10 @@ import java.util.ArrayList;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
-@ToString(exclude =  {"directoryId"})
+@ToString(exclude =  {"directoryId", "userDirectoryId"})
 public class Directory {
 
     @Id

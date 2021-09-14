@@ -11,10 +11,11 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"userDirectoryId", "userCommentId", "userPostId", "favoriteUserId", "favoriteUserId", "favorite_user_id" })
+@ToString(exclude = {"directoryList", "commentList", "postList", "favoriteUserList", "favoriteUserId", "favoritePostList" })
 public class User implements UserDetails {
 
     @Id
@@ -60,7 +61,7 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "favoriteUserId")
     private List<User> favoriteUserList = new ArrayList<>();
 
-    @JoinColumn(name = "favorite_user_id")
+    @JoinColumn(name = "favoriteUserId")
     @ManyToOne
     private User favoriteUserId;
 
