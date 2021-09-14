@@ -7,6 +7,7 @@ import com.mr.myrecord.model.repository.CommentRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.CommentRequest;
+import com.mr.myrecord.model.request.CommentUpdateRequest;
 import com.mr.myrecord.model.response.CommentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,5 +73,34 @@ public class CommentService {
 
         return res;
 
+    }
+
+    public CommentResponse updateComment(String email, CommentUpdateRequest commentRequest) throws Exception {
+        User user = userRepository.findByEmail(email);
+        Comment comment = commentRepository.findByIdAndUserCommentId(commentRequest.getCommentId(), user.getId());
+        if (comment == null) {
+            throw new Exception("권한이 없습니다.");
+        }
+        comment.setComment(commentRequest.getComment());
+        commentRepository.save(comment);
+        CommentResponse res = CommentResponse.builder()
+                .comment(comment.getComment())
+                .userName(user.getName())
+                .userImage(user.getImage())
+                .commentList(new ArrayList<>())
+                .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
+                .commentTime(LocalDateTime.now())
+                .build();
+        return res;
+    }
+
+    public boolean deleteComment(String email, Long commentId){
+        User user = userRepository.findByEmail(email);
+        Comment comment = commentRepository.findByIdAndUserCommentId(commentId, user.getId());
+        if (comment == null) {
+            return false;
+        }
+        commentRepository.delete(comment);
+        return true;
     }
 }

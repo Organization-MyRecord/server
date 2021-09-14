@@ -1,6 +1,7 @@
 package com.mr.myrecord.controller;
 
 import com.mr.myrecord.model.request.CommentRequest;
+import com.mr.myrecord.model.request.CommentUpdateRequest;
 import com.mr.myrecord.model.response.CommentResponse;
 import com.mr.myrecord.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,24 @@ public class CommentController {
         String email = ((User) auth.getPrincipal()).getUsername();
 
         return commentService.createComment(email, postId, commentRequest);
+    }
+
+    @PutMapping("/comment/{postId}")
+    public CommentResponse updateComment(@PathVariable Long postId,
+                                         @RequestBody CommentUpdateRequest commentRequest) throws Exception {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        return commentService.updateComment(email, commentRequest);
+    }
+
+    @DeleteMapping("/comment/{postId}/{commentId}")
+    public boolean deleteComment(@PathVariable Long postId,
+                                 @PathVariable Long commentId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = ((User) auth.getPrincipal()).getUsername();
+
+        return commentService.deleteComment(email, commentId);
     }
 
 

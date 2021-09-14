@@ -2,6 +2,7 @@ package com.mr.myrecord.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@Accessors(chain = true)
 @ToString(exclude = { "parentCommentId", "userCommentId", "postId", "commentList"})
 public class Comment {
 

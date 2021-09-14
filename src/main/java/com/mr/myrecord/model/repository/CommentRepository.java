@@ -13,4 +13,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query("select u from Comment u where u.postId.id = ?1 and u.firstComment = ?2")
     List<Comment> findByHello(Long id, boolean tf);
+
+    @Query("select u from Comment u where u.id = ?1 and u.userCommentId.id=?2")
+    Comment findByIdAndUserCommentId(Long id, Long userId);
 }
