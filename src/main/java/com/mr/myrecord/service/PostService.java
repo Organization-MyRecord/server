@@ -167,7 +167,6 @@ public class PostService {
                 .collect(Collectors.toList());
         return CommentResponse.builder()
                 .comment(comment.getComment())
-                .postId(comment.getPostId().getId())
                 .commentList(commentResponseList)
                 .commentTime(comment.getCommentTime())
                 .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
@@ -178,7 +177,6 @@ public class PostService {
     private NestedCommentResponse nestedCommentResponse(Comment comment) {
         return NestedCommentResponse.builder()
                 .comment(comment.getComment())
-                .postId(comment.getPostId().getId())
                 .commentList(comment.getCommentList())
                 .commentTime(comment.getCommentTime())
                 .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())

@@ -26,8 +26,6 @@ public class CommentResponse {
     @ApiModelProperty(example = "댓글 내용")
     private String comment;
 
-    @ApiModelProperty(example = "게시물 id")
-    private Long postId;
 
     @ApiModelProperty(example = "대댓글 상위")
     private Long parentCommendId;
