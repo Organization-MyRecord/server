@@ -65,7 +65,6 @@ public class CommentService {
                 .comment(comment.getComment())
                 .userName(user.getName())
                 .userImage(user.getImage())
-                .postId(postId)
                 .commentList(new ArrayList<>())
                 .parentCommendId(commentRequest.getParentCommentId())
                 .commentTime(LocalDateTime.now())
