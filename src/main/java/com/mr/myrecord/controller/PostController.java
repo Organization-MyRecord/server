@@ -50,7 +50,7 @@ public class PostController {
      */
     @ApiOperation(value = "게시물 보기", notes = "게시물 id 필수")
     @GetMapping("/post/{postId}")
-    public PostReadResponse read(@PathVariable Long postId) {
+    public PostReadResponse read(@PathVariable Long postId) throws Exception {
         return postService.read(postId);
     }
 

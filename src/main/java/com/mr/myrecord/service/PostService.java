@@ -91,11 +91,14 @@ public class PostService {
         return res;
     }
 
-    public PostReadResponse read(Long postId) {
+    public PostReadResponse read(Long postId) throws Exception {
         Post resource = postRepository.findById(postId).orElse(null);
         List<Comment> commentList = commentRepository.findByHello(postId, true);
         List<CommentResponse> commentResponseList = commentList.stream().map(comment -> commentResponse(comment))
                 .collect(Collectors.toList());
+        if (resource==null) {
+            throw new Exception("없는 게시물 id입니다.");
+        }
         if (commentList.size()==0) {
             PostReadResponse res = PostReadResponse.builder()
                     .postImage(resource.getPostImage())
