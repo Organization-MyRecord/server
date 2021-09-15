@@ -170,6 +170,7 @@ public class PostService {
         List<NestedCommentResponse> commentResponseList = comment.getCommentList().stream().map(nestedComment -> nestedCommentResponse(nestedComment))
                 .collect(Collectors.toList());
         return CommentResponse.builder()
+                .commentId(comment.getId())
                 .comment(comment.getComment())
                 .commentList(commentResponseList)
                 .commentTime(comment.getCommentTime())
@@ -180,6 +181,7 @@ public class PostService {
     }
     private NestedCommentResponse nestedCommentResponse(Comment comment) {
         return NestedCommentResponse.builder()
+                .commentId(comment.getId())
                 .comment(comment.getComment())
                 .commentList(comment.getCommentList())
                 .commentTime(comment.getCommentTime())

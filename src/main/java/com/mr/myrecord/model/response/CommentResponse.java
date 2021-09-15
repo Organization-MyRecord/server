@@ -17,6 +17,9 @@ import java.util.ArrayList;
 @Builder
 public class CommentResponse {
 
+    @ApiModelProperty(example = "댓글 id")
+    private Long commentId;
+
     @ApiModelProperty(example = "유저 이름")
     private String userName;
 
