@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
@@ -32,4 +34,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("select u from Post u where u.directoryId.id = ?1")
     Post findByDirectoryId(Long id);
+
+    List<Post> findTop2ByUserPostId_IdAndPostDateGreaterThanOrderByPostDateAsc(Long userId, LocalDateTime postDate);
+
+    List<Post> findTop2ByUserPostId_IdAndPostDateLessThanOrderByPostDateDesc(Long userId, LocalDateTime postDate);
 }

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -189,5 +190,43 @@ public class PostService {
                 .classification(field)
                 .views(post.getViews())
                 .build();
+    }
+
+    public AnotherPostResponse anotherPost(Long postId) {
+        Post post = postRepository.findById(postId).orElse(null);
+
+        List<Post> postUpperList = postRepository.findTop2ByUserPostId_IdAndPostDateGreaterThanOrderByPostDateAsc(post.getUserPostId().getId(), post.getPostDate());
+        List<Post> postUnderList = postRepository.findTop2ByUserPostId_IdAndPostDateLessThanOrderByPostDateDesc(post.getUserPostId().getId(), post.getPostDate());
+
+        // 이후 쓴 글 2개
+        List<PostUpperResponse> postUpperResponseList = postUpperList.stream().map(upperPost -> upperResponse(upperPost))
+                .collect(Collectors.toList());
+        // 이전 쓴 글 2개
+        List<PostUnderResponse> postUnderResponseList = postUnderList.stream().map(upperPost -> underResponse(upperPost))
+                .collect(Collectors.toList());
+
+        // 이전글이 위로 올라가게 설정
+        Collections.reverse(postUnderResponseList);
+
+        return AnotherPostResponse.builder()
+                .postUpperResponseList(postUpperResponseList)
+                .postUnderResponseList(postUnderResponseList)
+                .build();
+    }
+
+    private PostUpperResponse upperResponse(Post post) {
+        return PostUpperResponse.builder()
+                .postId(post.getId())
+                .postName(post.getPostName())
+                .postDate(post.getPostDate())
+                .build();
+    }
+    private PostUnderResponse underResponse(Post post) {
+        return PostUnderResponse.builder()
+                .postId(post.getId())
+                .postName(post.getPostName())
+                .postDate(post.getPostDate())
+                .build();
+
     }
 }

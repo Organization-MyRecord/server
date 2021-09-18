@@ -2,10 +2,7 @@ package com.mr.myrecord.controller;
 
 import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
-import com.mr.myrecord.model.response.FieldPostResponse;
-import com.mr.myrecord.model.response.PostReadResponse;
-import com.mr.myrecord.model.response.PostResponse;
-import com.mr.myrecord.model.response.PostUpdateResponse;
+import com.mr.myrecord.model.response.*;
 import com.mr.myrecord.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +71,14 @@ public class PostController {
     public FieldPostResponse fieldPost(@RequestParam("field") String field,
                                        @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
         return postService.fieldPost(field, pageable);
+    }
+
+    /**
+     * 최근 게시물 위아래로 2개씩 가져오기
+     */
+    @GetMapping("/post/another/{postId}")
+    @ApiOperation(value = "게시물 기준 위아래로 2개씩 가져오기", notes = "")
+    public AnotherPostResponse anotherPost(@PathVariable Long postId) {
+        return postService.anotherPost(postId);
     }
 }
