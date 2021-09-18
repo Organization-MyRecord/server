@@ -63,17 +63,18 @@ public class UserController {
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
     @PostMapping("/authenticate")
+    @ExceptionHandler({ Exception.class })
     public LoginResponse generateToken(
             @ApiParam(value = "!!이메일 주소, 비밀번호 필수!!", required = true, example = "email:test@naver.com, password:****")
             @RequestBody UserLoginRequest userLoginRequest
-    ) throws Exception {
+    )  {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
             );
+            return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
         }catch (Exception e) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "잘못된 아이디 또는 비밀번호 입니다.", 400L);
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 아이디 또는 비밀번호 입니다.", 500L);
         }
-        return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
     }
 }
