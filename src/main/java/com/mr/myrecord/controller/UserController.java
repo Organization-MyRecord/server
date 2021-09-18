@@ -1,5 +1,6 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.exception.ApiException;
 import com.mr.myrecord.model.request.UserLoginRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.LoginResponse;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -70,7 +72,7 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
             );
         }catch (Exception e) {
-            throw new Exception("잘못된 아이디, 비밀번호입니다.");
+            throw new ApiException(HttpStatus.NOT_FOUND, "잘못된 아이디, 비밀번호 입니다.", 400L);
         }
         return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
     }
