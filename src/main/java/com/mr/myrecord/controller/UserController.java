@@ -72,7 +72,7 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
             );
         }catch (Exception e) {
-            throw new ApiException(HttpStatus.NOT_FOUND, "잘못된 아이디, 비밀번호 입니다.", 400L);
+            throw new ApiException(HttpStatus.NOT_FOUND, "잘못된 아이디 또는 비밀번호 입니다.", 400L);
         }
         return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
     }
