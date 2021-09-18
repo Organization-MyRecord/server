@@ -7,11 +7,15 @@ import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.DirectoryRequest;
+import com.mr.myrecord.model.response.DirectoryListResponse;
+import com.mr.myrecord.model.response.RecentMyPostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DirectoryService {
@@ -72,4 +76,20 @@ public class DirectoryService {
         directoryRepository.save(directory);
         return true;
     }
+
+    public DirectoryListResponse read(String email) {
+        User user = userRepository.findByEmail(email);
+        List<Directory> directoryList = directoryRepository.findByUserId(user.getId());
+
+        List<String> myDirectoryList = directoryList.stream().map(directory -> response(directory) )
+                .collect(Collectors.toList());
+
+        return DirectoryListResponse.builder()
+                .directoryList(myDirectoryList)
+                .build();
+    }
+    public String response(Directory directory) {
+        return directory.getDirectoryName();
+    }
+
 }

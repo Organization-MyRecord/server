@@ -27,4 +27,7 @@ public class PostUpdateResponse {
 
     @ApiModelProperty(example = "게시물 이미지")
     private String postImage;
+
+    @ApiModelProperty(example = "수정 디렉토리 이름")
+    private String directoryName;
 }

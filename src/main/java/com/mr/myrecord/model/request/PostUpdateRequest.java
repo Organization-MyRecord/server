@@ -23,6 +23,7 @@ public class PostUpdateRequest {
     @ApiModelProperty(example = "새로운 게시물 제목 or 수정하지 않으면 기존 게시물 제목")
     private String newPostName;
 
-
+    @ApiModelProperty(example = "수정할 디렉토리 이름")
+    private String directoryName;
 
 }

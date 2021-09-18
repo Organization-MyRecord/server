@@ -78,10 +78,12 @@ public class PostService {
     public PostUpdateResponse update(String email, PostUpdateRequest request) {
         User user = userRepository.findByEmail(email);
         Post post = postRepository.findByUserPostIdAndPostId(user.getId(), request.getPostId());
+        Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(request.getDirectoryName(), user.getId());
 
         post.setPostName(request.getNewPostName())
                 .setContent(request.getContent())
-                .setPostDate(LocalDateTime.now());
+                .setPostDate(LocalDateTime.now())
+                .setDirectoryId(directory);
 
         postRepository.save(post);
 
@@ -90,6 +92,7 @@ public class PostService {
                 .postDate(post.getPostDate())
                 .content(post.getContent())
                 .postImage(post.getPostImage())
+                .directoryName(directory.getDirectoryName())
                 .build();
 
         return res;
