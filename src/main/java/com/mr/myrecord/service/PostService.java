@@ -97,42 +97,22 @@ public class PostService {
 
     public PostReadResponse read(Long postId) throws Exception {
         Post resource = postRepository.findById(postId).orElse(null);
-        List<Comment> commentList = commentRepository.findByHello(postId, true);
-        List<CommentResponse> commentResponseList = commentList.stream().map(comment -> commentResponse(comment))
-                .collect(Collectors.toList());
         if (resource==null) {
             throw new Exception("없는 게시물 id입니다.");
         }
-        if (commentList.size()==0) {
-            PostReadResponse res = PostReadResponse.builder()
-                    .postImage(resource.getPostImage())
-                    .classification(resource.getClassification())
-                    .content(resource.getContent())
-                    .postName(resource.getPostName())
-                    .postUserEmail(resource.getPostUserEmail())
-                    .views(resource.getViews() + 1L)
-                    .id(resource.getId())
-                    .commentList(commentResponseList)
-                    .build();
-            resource.setViews(resource.getViews() + 1L);
-            postRepository.save(resource);
-            return res;
-        }
-        else {
-            PostReadResponse res2 = PostReadResponse.builder()
-                    .postImage(resource.getPostImage())
-                    .classification(resource.getClassification())
-                    .content(resource.getContent())
-                    .postName(resource.getPostName())
-                    .postUserEmail(resource.getPostUserEmail())
-                    .views(resource.getViews() + 1L)
-                    .id(resource.getId())
-                    .commentList(commentResponseList)
-                    .build();
-            resource.setViews(resource.getViews() + 1L);
-            postRepository.save(resource);
-            return res2;
-        }
+
+        PostReadResponse res = PostReadResponse.builder()
+                .postImage(resource.getPostImage())
+                .classification(resource.getClassification())
+                .content(resource.getContent())
+                .postName(resource.getPostName())
+                .postUserEmail(resource.getPostUserEmail())
+                .views(resource.getViews() + 1L)
+                .id(resource.getId())
+                .build();
+        resource.setViews(resource.getViews() + 1L);
+        postRepository.save(resource);
+        return res;
 
     }
 

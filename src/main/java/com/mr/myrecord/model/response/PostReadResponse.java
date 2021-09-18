@@ -35,6 +35,4 @@ public class PostReadResponse {
     @ApiModelProperty(example = "게시물 이미지")
     private String postImage;
 
-    @ApiModelProperty(example = "게시물 댓글")
-    private List<CommentResponse> commentList;
 }

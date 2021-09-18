@@ -9,11 +9,15 @@ import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.CommentRequest;
 import com.mr.myrecord.model.request.CommentUpdateRequest;
 import com.mr.myrecord.model.response.CommentResponse;
+import com.mr.myrecord.model.response.NestedCommentResponse;
+import com.mr.myrecord.model.response.PostReadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -108,5 +112,42 @@ public class CommentService {
         }
         commentRepository.delete(comment);
         return true;
+    }
+
+    public List<CommentResponse> read(Long postId) throws Exception {
+        Post resource = postRepository.findById(postId).orElse(null);
+        List<Comment> commentList = commentRepository.findByHello(postId, true);
+        List<CommentResponse> commentResponseList = commentList.stream().map(comment -> commentResponse(comment))
+                .collect(Collectors.toList());
+        if (resource==null) {
+            throw new Exception("없는 게시물 id입니다.");
+        }
+        return commentResponseList;
+
+    }
+
+    private CommentResponse commentResponse(Comment comment) {
+        List<NestedCommentResponse> commentResponseList = comment.getCommentList().stream().map(nestedComment -> nestedCommentResponse(nestedComment))
+                .collect(Collectors.toList());
+        return CommentResponse.builder()
+                .commentId(comment.getId())
+                .comment(comment.getComment())
+                .commentList(commentResponseList)
+                .commentTime(comment.getCommentTime())
+                .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
+                .userName(comment.getUserCommentId().getName())
+                .userImage(comment.getUserCommentId().getImage())
+                .build();
+    }
+    private NestedCommentResponse nestedCommentResponse(Comment comment) {
+        return NestedCommentResponse.builder()
+                .commentId(comment.getId())
+                .comment(comment.getComment())
+                .commentList(comment.getCommentList())
+                .commentTime(comment.getCommentTime())
+                .parentCommendId(comment.getParentCommentId() == null ? null : comment.getParentCommentId().getId())
+                .userName(comment.getUserCommentId().getName())
+                .userImage(comment.getUserCommentId().getImage())
+                .build();
     }
 }
