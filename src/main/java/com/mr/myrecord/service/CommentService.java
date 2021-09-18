@@ -115,6 +115,7 @@ public class CommentService {
     }
 
     public List<CommentResponse> read(Long postId) throws Exception {
+
         Post resource = postRepository.findById(postId).orElse(null);
         List<Comment> commentList = commentRepository.findByHello(postId, true);
         List<CommentResponse> commentResponseList = commentList.stream().map(comment -> commentResponse(comment))
