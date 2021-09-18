@@ -21,9 +21,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT u FROM Post u  WHERE u.classification = ?1")
     Page<Post> findByClassification(String field, Pageable pageable);
 
-    List<Post> findTop6ByOrderByViewsDesc();
+    List<Post> findTop8ByOrderByViewsDesc();
 
-    List<Post> findTop3ByUserPostId_IdOrderByPostDateDesc(Long userPostId);
+    List<Post> findTop4ByUserPostId_IdOrderByPostDateDesc(Long userPostId);
 
     List<Post> findTop3ByOrderByPostDateDesc();
 

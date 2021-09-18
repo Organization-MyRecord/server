@@ -23,17 +23,17 @@ public class MainPageService {
         User user = userRepository.findByEmail(email);
 
         /**
-         * 나의 게시물 3개 전달
+         * 나의 게시물 4개 전달
          */
-        List<Post> myPosts = postRepository.findTop3ByUserPostId_IdOrderByPostDateDesc(user.getId());
+        List<Post> myPosts = postRepository.findTop4ByUserPostId_IdOrderByPostDateDesc(user.getId());
 
         List<RecentMyPostResponse> myPostList = myPosts.stream().map(post -> myPostResponse(post))
                 .collect(Collectors.toList());
 
         /**
-         * 인기있는 게시물 6개 전달
+         * 인기있는 게시물 8개 전달
          */
-        List<Post> popularPosts = postRepository.findTop6ByOrderByViewsDesc();
+        List<Post> popularPosts = postRepository.findTop8ByOrderByViewsDesc();
 
         List<PopularPostResponse> postList = popularPosts.stream().map(post -> popularPostResponse(post))
                 .collect(Collectors.toList());
@@ -103,9 +103,9 @@ public class MainPageService {
 
     public MainPageResponse unLoginRead() {
         /**
-         * 인기있는 게시물 6개 전달
+         * 인기있는 게시물 8개 전달
          */
-        List<Post> popularPosts = postRepository.findTop6ByOrderByViewsDesc();
+        List<Post> popularPosts = postRepository.findTop8ByOrderByViewsDesc();
 
         List<PopularPostResponse> postList = popularPosts.stream().map(post -> popularPostResponse(post))
                 .collect(Collectors.toList());

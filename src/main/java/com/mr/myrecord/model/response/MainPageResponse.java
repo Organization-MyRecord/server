@@ -15,10 +15,10 @@ public class MainPageResponse {
 
     private String userImage;
 
-    @ApiModelProperty(example = "나의 최근 게시물 리스트 3개 & 로그인 되어있지 않으면 null")
+    @ApiModelProperty(example = "나의 최근 게시물 리스트 4개 & 로그인 되어있지 않으면 null")
     List<RecentMyPostResponse> recentMyPostResponseList;
 
-    @ApiModelProperty(example = "인기있는 게시물 리스트 6개")
+    @ApiModelProperty(example = "인기있는 게시물 리스트 8개")
     List<PopularPostResponse> popularPostResponseList;
 
     @ApiModelProperty(example = "모든 게시물 중에 최근 게시물 리스트 3개")
