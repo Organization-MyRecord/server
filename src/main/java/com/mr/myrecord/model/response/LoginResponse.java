@@ -21,4 +21,10 @@ public class LoginResponse {
     @ApiModelProperty(name = "로그인 사용자 이미지")
     private String image;
 
+    @ApiModelProperty(name = "로그인 성공?")
+    private boolean isOk;
+
+    @ApiModelProperty(name = "로그인 설명")
+    private String description;
+
 }

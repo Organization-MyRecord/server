@@ -74,7 +74,10 @@ public class UserController {
             );
             return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
         }catch (Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 아이디 또는 비밀번호 입니다.", 500L);
+            return LoginResponse.builder()
+                    .isOk(false)
+                    .description("잘못된 아이디 혹은 비밀번호 입니다.")
+                    .build();
         }
     }
 }

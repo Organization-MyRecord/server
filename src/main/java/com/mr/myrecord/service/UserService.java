@@ -167,6 +167,8 @@ public class UserService {
         User user = userRepository.findByEmail(email);
         String image = user.getImage();
         return LoginResponse.builder()
+                .isOk(true)
+                .description("로그인 되었습니다.")
                 .token(token)
                 .email(email)
                 .image(image)

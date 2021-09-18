@@ -53,10 +53,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        try {
-            filterChain.doFilter(request, response);
-        }catch(Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 아이디 혹은 비밀번호 입니다.", 500L);
-        }
+        filterChain.doFilter(request, response);
     }
 }
