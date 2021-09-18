@@ -1,15 +1,12 @@
 package com.mr.myrecord.controller;
 
-import com.mr.myrecord.exception.UnAuthorizationException;
 import com.mr.myrecord.model.request.UserLoginRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.LoginResponse;
 import com.mr.myrecord.model.response.PageResponse;
-import com.mr.myrecord.model.response.UserResponse;
 import com.mr.myrecord.model.response.UserUpdateResponse;
 import com.mr.myrecord.security.entity.JwtUtil;
 import com.mr.myrecord.service.UserService;
-import io.jsonwebtoken.Claims;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +70,7 @@ public class UserController {
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
             );
         }catch (Exception e) {
-            throw new Exception("invaild username/password");
+            throw new Exception("잘못된 아이디, 비밀번호입니다.");
         }
         return userService.login(jwtUtil.generateToken(userLoginRequest.getEmail()), userLoginRequest.getEmail());
     }
