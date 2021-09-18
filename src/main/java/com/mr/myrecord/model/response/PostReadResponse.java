@@ -17,6 +17,9 @@ import java.util.*;
 public class PostReadResponse {
     private Long id;
 
+    @ApiModelProperty(example = "디렉토리 제목")
+    private String directoryName;
+
     @ApiModelProperty(example = "게시물 제목")
     private String postName;
 

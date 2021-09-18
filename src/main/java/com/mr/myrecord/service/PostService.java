@@ -97,11 +97,13 @@ public class PostService {
 
     public PostReadResponse read(Long postId) throws Exception {
         Post resource = postRepository.findById(postId).orElse(null);
+        Directory directory = directoryRepository.findById(resource.getDirectoryId().getId()).orElse(null);
         if (resource==null) {
             throw new Exception("없는 게시물 id입니다.");
         }
 
         PostReadResponse res = PostReadResponse.builder()
+                .directoryName(directory.getDirectoryName())
                 .postImage(resource.getPostImage())
                 .classification(resource.getClassification())
                 .content(resource.getContent())

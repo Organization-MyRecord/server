@@ -29,4 +29,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("select u from Post u where u.userPostId.id=?1 and u.id=?2")
     Post findByUserPostIdAndPostId(Long id, Long postId);
+
+    @Query("select u from Post u where u.directoryId.id = ?1")
+    Post findByDirectoryId(Long id);
 }

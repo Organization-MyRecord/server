@@ -1,8 +1,10 @@
 package com.mr.myrecord.service;
 
 import com.mr.myrecord.model.entity.Directory;
+import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
+import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
 import com.mr.myrecord.model.request.DirectoryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,9 @@ public class DirectoryService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
 
     @Autowired
     private DirectoryRepository directoryRepository;
@@ -49,11 +54,14 @@ public class DirectoryService {
         User user = userRepository.findByEmail(email);
 
         Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(name, user.getId());
-        if(directory != null) {
+        Post post = postRepository.findByDirectoryId(directory.getId());
+        if(directory != null && post == null) {
             directoryRepository.delete(directory);
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     public boolean update(String email, String name, DirectoryRequest directoryRequest) {
