@@ -27,8 +27,8 @@ jobs:
             git reset --hard
             git fetch
             git pull
-            chmod +x gradlew
-            sudo ./gradlew build
             pm2 stop server
             pm2 delete server
+            chmod +x gradlew
+            sudo ./gradlew clean bootjar
             pm2 start java --name "server" -- -jar build/libs/myrecord-0.0.1-SNAPSHOT.jar
