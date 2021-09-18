@@ -1,8 +1,11 @@
 package com.mr.myrecord.security.filter;
 
+import com.mr.myrecord.controller.ApiController;
+import com.mr.myrecord.exception.ApiException;
 import com.mr.myrecord.security.entity.JwtUtil;
 import com.mr.myrecord.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,6 +53,10 @@ public class JwtFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
         }
-        filterChain.doFilter(request, response);
+        try {
+            filterChain.doFilter(request, response);
+        }catch(Exception e) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 아이디 혹은 비밀번호 입니다.", 500L);
+        }
     }
 }

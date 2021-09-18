@@ -63,7 +63,6 @@ public class UserController {
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
     @PostMapping("/authenticate")
-    @ExceptionHandler({ Exception.class })
     public LoginResponse generateToken(
             @ApiParam(value = "!!이메일 주소, 비밀번호 필수!!", required = true, example = "email:test@naver.com, password:****")
             @RequestBody UserLoginRequest userLoginRequest
