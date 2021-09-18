@@ -69,6 +69,7 @@ public class UserController {
             @RequestBody UserLoginRequest userLoginRequest
     )  {
         try {
+
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword())
             );
