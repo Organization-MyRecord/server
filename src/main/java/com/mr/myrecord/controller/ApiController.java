@@ -1,5 +1,6 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.model.Header;
 import com.mr.myrecord.model.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,14 +15,14 @@ import java.time.LocalDateTime;
 public class ApiController {
 
     @GetMapping("/hello")
-    public String hello() {
+    public Header<String> hello() {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
-            return "Hello MyRecord";
+            return Header.OK("Hello MyRecord");
         }catch (Exception e) {
             String s = LocalDateTime.now().toString();
-            return s;
+            return Header.ERROR(s);
         }
     }
 
