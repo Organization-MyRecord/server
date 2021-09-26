@@ -1,5 +1,6 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.model.Header;
 import com.mr.myrecord.model.request.PostRequest;
 import com.mr.myrecord.model.request.PostUpdateRequest;
 import com.mr.myrecord.model.response.*;
@@ -22,24 +23,36 @@ public class PostController {
 
     /**
      * 게시물 생성
+     * 로그인 권한 필요
      */
     @ApiOperation(value = "게시물 생성", notes = "JWT 토큰정보 필수")
     @PostMapping("/create_post")
-    public PostResponse create(@RequestBody PostRequest postRequest) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((User) auth.getPrincipal()).getUsername();
-        return postService.create(email, postRequest);
+    public Header<PostResponse> create(@RequestBody PostRequest postRequest) throws Exception {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
+            return Header.OK(postService.create(email, postRequest));
+        }
+        catch (Exception e) {
+            return Header.ERROR("로그인 권한이 필요합니다.");
+        }
     }
 
     /**
      * 게시물 수정
+     * 로그인 권한 필요
      */
     @ApiOperation(value = "게시물 수정", notes = "JWT 토큰정보 필수")
     @PutMapping("/update_post")
-    public PostUpdateResponse update(@RequestBody PostUpdateRequest postUpdateRequest) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((User) auth.getPrincipal()).getUsername();
-        return postService.update(email, postUpdateRequest);
+    public Header<PostUpdateResponse> update(@RequestBody PostUpdateRequest postUpdateRequest) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
+            return Header.OK(postService.update(email, postUpdateRequest));
+        }
+        catch (Exception e) {
+            return Header.ERROR("로그인 권한이 필요합니다.");
+        }
     }
 
     /**
@@ -53,14 +66,20 @@ public class PostController {
 
     /**
      * 게시물 삭제
+     * 로그인 권한 필요
      */
     @ApiOperation(value = "게시물 삭제", notes = "JWT토큰 & 게시물 id 필수")
     @DeleteMapping("/post_delete/{postId}")
-    public boolean delete(@PathVariable Long postId) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((User) auth.getPrincipal()).getUsername();
+    public Header<Boolean> delete(@PathVariable Long postId) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
 
-        return postService.delete(postId);
+            return Header.OK(postService.delete(postId));
+        }
+        catch (Exception e) {
+            return Header.ERROR("로그인 권한이 필요합니다.");
+        }
     }
 
     /**
@@ -68,9 +87,9 @@ public class PostController {
      */
     @GetMapping("/post")
     @ApiOperation(value = "분야별 게시물 조회", notes = "field 분야 값 필수")
-    public FieldPostResponse fieldPost(@RequestParam("field") String field,
+    public Header<FieldPostResponse> fieldPost(@RequestParam("field") String field,
                                        @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable) {
-        return postService.fieldPost(field, pageable);
+        return Header.OK(postService.fieldPost(field, pageable));
     }
 
     /**
@@ -78,7 +97,7 @@ public class PostController {
      */
     @GetMapping("/post/another/{postId}")
     @ApiOperation(value = "게시물 기준 위아래로 2개씩 가져오기", notes = "")
-    public AnotherPostResponse anotherPost(@PathVariable Long postId) {
-        return postService.anotherPost(postId);
+    public Header<AnotherPostResponse> anotherPost(@PathVariable Long postId) {
+        return Header.OK(postService.anotherPost(postId));
     }
 }
