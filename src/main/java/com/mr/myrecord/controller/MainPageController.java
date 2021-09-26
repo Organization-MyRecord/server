@@ -1,5 +1,6 @@
 package com.mr.myrecord.controller;
 
+import com.mr.myrecord.model.Header;
 import com.mr.myrecord.model.entity.Post;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.response.MainPageResponse;
@@ -20,16 +21,16 @@ public class MainPageController {
     private MainPageService mainPageService;
 
     @GetMapping("/main")
-    public MainPageResponse mainPage() {
+    public Header<MainPageResponse> mainPage() {
         // 로그인한 경우 리턴
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
-            return mainPageService.read(email);
+            return Header.OK(mainPageService.read(email));
         }
         // 로그인 안된 경우 리턴
         catch(Exception e) {
-            return mainPageService.unLoginRead();
+            return Header.OK(mainPageService.unLoginRead());
         }
     }
 
