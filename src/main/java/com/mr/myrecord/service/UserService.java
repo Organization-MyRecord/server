@@ -22,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,9 @@ public class UserService {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    MailService mailService;
 
     public PageResponse read(String email, Pageable pageable) {
         User resource = userRepository.findByEmail(email);
@@ -200,5 +205,10 @@ public class UserService {
             return false;
         }
 
+    }
+
+    public String sendPw(String email) throws UnsupportedEncodingException, MessagingException {
+        mailService.sendTempPwEmail(email);
+        return "임시 비밀번호를 이메일로 발송했습니다.";
     }
 }

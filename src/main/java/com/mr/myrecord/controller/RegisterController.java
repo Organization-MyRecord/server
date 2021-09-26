@@ -131,4 +131,71 @@ public class RegisterController {
             return "이메일 인증이 필요합니다.";
         }
     }
+
+    /**
+     * 비밀번호 변경시 이메일로 사용자 확인
+     */
+    @ApiOperation(value =  "이메일로 랜덤 코드 전송")
+    @GetMapping("/checkUser")
+    public String checkUser(
+            @ApiParam(value = "이메일 주소", required = true, example = "test@naver.com")
+            @RequestParam String email,
+            HttpSession httpSession) throws UnsupportedEncodingException, MessagingException {
+
+        RegisterRequest body = new RegisterRequest();
+
+        body.setEmail(email);
+
+        /**
+         * 메일 보내고 인증코드 받기
+         */
+        String randomCode = mailService.sendEmail(email);
+
+        body.setRandomCode(randomCode);
+
+        // 세션에 받은 이메일을 key로 request객체 Session에 저장
+        // name, value 쌍으로 값 저장
+        httpSession.setAttribute(body.getEmail(), body);
+
+        return "인증번호를 전송했습니다.";
+    }
+
+    /**
+     * 확인된 사용자에게 새로운 비밀번호 발송
+     */
+    @ApiOperation(value =  "랜덤 코드 올바른지 확인")
+    @GetMapping("/sendPw")
+    public String sendPw(
+            @ApiParam(value = "!!이메일 주소 필수!!", required = true, example = "test@naver.com")
+            @RequestParam String email,
+            @ApiParam(value = "!!랜덤코드 입력 필수!!", required = true, example = "******")
+            @RequestParam String randomCode,
+            HttpSession httpSession) throws UnsupportedEncodingException, MessagingException {
+        RegisterRequest body = RegisterRequest.builder()
+                .email(email)
+                .randomCode(randomCode)
+                .build();
+
+        //쿠키의 세션을 받아 파라미터로 받은 이메일에 해당하는 User꺼내고
+        //해당 User와 파라미터로 받은 request의 randomCode비교
+        RegisterRequest oldBody = (RegisterRequest) httpSession.getAttribute(body.getEmail());
+
+        //쿠키 없으면 이메일 인증 필요
+        if (oldBody == null) {
+            return "이메일 인증 필요합니다.";
+        }
+
+        //randomCode가 같으면
+        if (body.getRandomCode().contains(oldBody.getRandomCode())) {
+            oldBody.setVerification(true);
+            httpSession.setAttribute(oldBody.getEmail(), oldBody);
+
+            return userService.sendPw(oldBody.getEmail());
+        }
+
+        //randomCode 다르면
+        else {
+            return "인증 코드가 올바르지 않습니다.";
+        }
+    }
 }
