@@ -103,28 +103,32 @@ public class RegisterController {
     @PostMapping("/register")
     public String create(@RequestBody RegisterRequest request,
                          HttpSession httpSession) {
-        RegisterRequest oldBody = (RegisterRequest) httpSession.getAttribute(request.getEmail());
+        try {
+            RegisterRequest oldBody = (RegisterRequest) httpSession.getAttribute(request.getEmail());
 
-        // 세션에서 꺼낸 User가 인증된 경우
-        if (oldBody.getVerification()) {
-            if (!request.getPassword().equals(request.getSecondPassword())) {
-                return "비밀번호 확인 오류";
+            // 세션에서 꺼낸 User가 인증된 경우
+            if (oldBody.getVerification()) {
+                if (!request.getPassword().equals(request.getSecondPassword())) {
+                    return "비밀번호 확인 오류";
+                }
+
+                if (request.getEmail() == null) {
+                    return "이메일 정보가 틀렸습니다";
+                }
+
+                User user = userService.create(request);
+
+                // 세션만료
+                httpSession.removeAttribute(oldBody.getEmail());
+
+                return "회원가입이 성공적으로 완료되었습니다.";
+
+            } else {
+                return "인증 안된 사용자 입니다.";
             }
-
-            if (request.getEmail() == null) {
-                return "이메일 정보가 틀렸습니다";
-            }
-
-            User user = userService.create(request);
-
-            // 세션만료
-            httpSession.removeAttribute(oldBody.getEmail());
-
-            return "가입  완료";
-
         }
-        else {
-            return "인증 안된 사용자 입니다.";
+        catch (Exception e) {
+            return "이메일 인증이 필요합니다.";
         }
     }
 }
