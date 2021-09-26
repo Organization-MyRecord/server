@@ -38,4 +38,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findTop2ByUserPostId_IdAndPostDateGreaterThanOrderByPostDateAsc(Long userId, LocalDateTime postDate);
 
     List<Post> findTop2ByUserPostId_IdAndPostDateLessThanOrderByPostDateDesc(Long userId, LocalDateTime postDate);
+
+    //search 기능 DB불러오기
+    @Query("select u from Post u where u.postName like %?1% or u.content like %?1%")
+    Page<Post> findByPostlist(String keyword, Pageable pageable);
 }

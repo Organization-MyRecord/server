@@ -100,4 +100,17 @@ public class PostController {
     public Header<AnotherPostResponse> anotherPost(@PathVariable Long postId) {
         return Header.OK(postService.anotherPost(postId));
     }
+
+    /**
+     * 개시물 검색 기능
+     */
+    @GetMapping("/search/{keyword}")
+    @ApiOperation(value = "게시물 제목, 게시물 내용에서 검색하기")
+    public Header<FieldPostResponse> searchPost(
+            @PathVariable String keyword,
+            @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable
+                           ) {
+        return Header.OK(postService.searchPost(keyword, pageable));
+    }
+
 }

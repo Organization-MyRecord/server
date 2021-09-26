@@ -192,6 +192,20 @@ public class PostService {
                 .build();
     }
 
+    private PostResponse searchPostResponse(Post post) {
+        return PostResponse.builder()
+                .id(post.getId())
+                .postDate(post.getPostDate())
+                .userPostId(post.getUserPostId().getId())
+                .postImage(post.getPostImage())
+                .postName(post.getPostName())
+                .postUserEmail(post.getPostUserEmail())
+                .content(post.getContent())
+                .classification(post.getClassification())
+                .views(post.getViews())
+                .build();
+    }
+
     public AnotherPostResponse anotherPost(Long postId) {
         Post post = postRepository.findById(postId).orElse(null);
 
@@ -228,5 +242,24 @@ public class PostService {
                 .postDate(post.getPostDate())
                 .build();
 
+    }
+
+    public FieldPostResponse searchPost(String keyword, Pageable pageable) {
+        Page<Post> posts = postRepository.findByPostlist(keyword, pageable);
+
+        List<PostResponse> postList = posts.stream().map(post -> searchPostResponse(post))
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(posts.getTotalPages())
+                .totalElements(posts.getTotalElements())
+                .currentPage(posts.getNumber()+1)
+                .currentElements(posts.getNumberOfElements())
+                .build();
+
+        return FieldPostResponse.builder()
+                .myPostList(postList)
+                .postPagination(pagination)
+                .build();
     }
 }

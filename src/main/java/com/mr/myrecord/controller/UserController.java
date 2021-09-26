@@ -80,7 +80,7 @@ public class UserController {
         }catch (Exception e) {
             return LoginResponse.builder()
                     .isOk(false)
-                    .description("잘못된 아이디 혹은 비밀번호 입니다.")
+                    .description("잘못된 아이디 혹은 비밀번호입니다.")
                     .build();
         }
     }

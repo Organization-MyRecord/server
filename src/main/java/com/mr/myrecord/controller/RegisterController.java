@@ -48,7 +48,7 @@ public class RegisterController {
         // name, value 쌍으로 값 저장
         httpSession.setAttribute(body.getEmail(), body);
 
-        return "email code 전송";
+        return "인증번호를 전송했습니다.";
 
     }
 
