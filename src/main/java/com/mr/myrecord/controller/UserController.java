@@ -1,6 +1,6 @@
 package com.mr.myrecord.controller;
 
-import com.mr.myrecord.exception.ApiException;
+import com.mr.myrecord.model.Header;
 import com.mr.myrecord.model.request.UserLoginRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.LoginResponse;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -54,11 +53,16 @@ public class UserController {
 
     @ApiOperation(value = "개인 정보 수정", notes = "개인 정보 수정 JWT 토큰 필요")
     @PutMapping("/mypage")
-    public UserUpdateResponse update(UserUpdateRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = ((User) auth.getPrincipal()).getUsername();
+    public Header<UserUpdateResponse> update(UserUpdateRequest request) {
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
 
-        return userService.update(email, request);
+            return Header.OK(userService.update(email, request));
+        }
+        catch(Exception e) {
+            return Header.ERROR("로그인 권한이 필요합니다.");
+        }
     }
 
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
