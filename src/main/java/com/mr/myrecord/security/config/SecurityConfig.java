@@ -63,7 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/mypage",
                 "/post/**",
                 "/post/another/**",
-                "/comment/**").permitAll()
+                "/comment/**",
+                "/directory",
+                "/directory/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
