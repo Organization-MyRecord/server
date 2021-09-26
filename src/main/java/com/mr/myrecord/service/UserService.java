@@ -6,6 +6,8 @@ import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
+import com.mr.myrecord.model.request.ChangePw;
+import com.mr.myrecord.model.request.CheckPw;
 import com.mr.myrecord.model.request.RegisterRequest;
 import com.mr.myrecord.model.request.UserUpdateRequest;
 import com.mr.myrecord.model.response.*;
@@ -14,6 +16,8 @@ import com.mr.myrecord.security.entity.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +43,9 @@ public class UserService {
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public PageResponse read(String email, Pageable pageable) {
         User resource = userRepository.findByEmail(email);
@@ -173,5 +180,25 @@ public class UserService {
                 .email(email)
                 .image(image)
                 .build();
+    }
+
+    public String changePw(String email, ChangePw request) {
+        User user = userRepository.findByEmail(email);
+
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        return "비밀번호가 변경되었습니다.";
+    }
+
+    public boolean checkPw(String email, CheckPw request) {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, request.getPassword())
+            );
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+
     }
 }
