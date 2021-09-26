@@ -5,21 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Header<T> {
 
+    //api 결과
+    private boolean result;
+
     //api 통신 설명
     private String description;
 
     private T value;
-
-    //api 결과
-    private boolean result;
 
     // OK
     public static <T> Header<T> OK() {
