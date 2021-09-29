@@ -69,7 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/comment/**",
                 "/directory",
                 "/directory/**",
-                "/search/**",
+                "/search",
                 "/CheckPw",
                 "/sendPw",
                 "/checkUser").permitAll()

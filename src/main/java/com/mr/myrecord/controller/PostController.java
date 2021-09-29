@@ -104,10 +104,10 @@ public class PostController {
     /**
      * 개시물 검색 기능
      */
-    @GetMapping("/search/{keyword}")
+    @GetMapping("/search")
     @ApiOperation(value = "게시물 제목, 게시물 내용에서 검색하기")
     public Header<FieldPostResponse> searchPost(
-            @PathVariable String keyword,
+            @RequestParam String keyword,
             @PageableDefault(sort = "views", direction = Sort.Direction.DESC, size=10) Pageable pageable
                            ) {
         return Header.OK(postService.searchPost(keyword, pageable));
