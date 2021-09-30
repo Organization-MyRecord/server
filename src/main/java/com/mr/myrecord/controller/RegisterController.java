@@ -135,7 +135,7 @@ public class RegisterController {
     /**
      * 비밀번호 변경시 이메일로 사용자 확인
      */
-    @ApiOperation(value =  "이메일로 랜덤 코드 전송")
+    @ApiOperation(value =  "비밀번호 찾기 전 사용자 인증 단계 (이메일)")
     @GetMapping("/checkUser")
     public String checkUser(
             @ApiParam(value = "이메일 주소", required = true, example = "test@naver.com")
@@ -163,7 +163,7 @@ public class RegisterController {
     /**
      * 확인된 사용자에게 새로운 비밀번호 발송
      */
-    @ApiOperation(value =  "랜덤 코드 올바른지 확인")
+    @ApiOperation(value =  "랜덤 코드 올바른지 확인하고 임시 비밀번호 메일로 발송")
     @GetMapping("/sendPw")
     public String sendPw(
             @ApiParam(value = "!!이메일 주소 필수!!", required = true, example = "test@naver.com")

@@ -75,9 +75,10 @@ public class MailService {
         User user = userRepository.findByEmail(email);
         String senderAddress = "wlrhkd49";
         String senderName = "MyRecord";
-        String subject = " MyRecord 새로운 임시 비밀번호입니다.";
+        String subject = "MyRecord 새로운 임시 비밀번호입니다.";
         String content = "Dear [[name]],<br>" //메일내용
-                + "MyRecord 임시 비밀번호를 발송했습니다.<br>"
+                + "사용자의 임시 비밀번호입니다.<br>"
+                + "로그인 이후 비밀번호를 변경해주세요.<br>"
                 + "<h3>임시 비밀번호 = [[code]]</h3>"
                 + "감사합니다,<br>"
                 + "MyRecord";
