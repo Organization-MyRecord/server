@@ -23,6 +23,12 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT u FROM Post u  WHERE u.classification = ?1")
     Page<Post> findByClassification(String field, Pageable pageable);
 
+
+    Page<Post> findByPostUserEmailAndDirectoryId_DirectoryName(String email, String directoryName, Pageable pageable);
+
+    @Query("select count(u) from Post u where u.postUserEmail=?1 and u.directoryId.directoryName=?2")
+    Long findByDirectoryPostCount(String email, String directoryName);
+
     List<Post> findTop8ByOrderByViewsDesc();
 
     List<Post> findTop4ByUserPostId_IdOrderByPostDateDesc(Long userPostId);

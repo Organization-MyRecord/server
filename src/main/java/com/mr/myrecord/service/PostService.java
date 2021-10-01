@@ -262,4 +262,31 @@ public class PostService {
                 .postPagination(pagination)
                 .build();
     }
+
+    /**
+     * 디렉토리 클릭시 디렉토리안 게시물들 불러오기 페이징 처리
+     * @param directoryName
+     * @param userEmail
+     * @param pageable
+     * @return
+     */
+    public DirectoryPostResponse readPost(String directoryName, String userEmail, Pageable pageable) {
+        Page<Post> posts = postRepository.findByPostUserEmailAndDirectoryId_DirectoryName(userEmail, directoryName, pageable);
+
+        List<PostResponse> postList = posts.stream().map(post -> searchPostResponse(post))
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(posts.getTotalPages())
+                .totalElements(posts.getTotalElements())
+                .currentPage(posts.getNumber()+1)
+                .currentElements(posts.getNumberOfElements())
+                .build();
+
+        return DirectoryPostResponse.builder()
+                .postResponseList(postList)
+                .pagination(pagination)
+                .build();
+
+    }
 }

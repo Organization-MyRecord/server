@@ -112,5 +112,4 @@ public class PostController {
                            ) {
         return Header.OK(postService.searchPost(keyword, pageable));
     }
-
 }

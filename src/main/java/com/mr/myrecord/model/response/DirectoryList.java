@@ -6,15 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.*;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DirectoryListResponse {
+public class DirectoryList {
+    @ApiModelProperty(example = "사용자 디렉토리 이름")
+    String directoryName;
 
-    @ApiModelProperty(example = "나의 디렉토리 리스트")
-    private List<DirectoryList> directoryList;
-
+    @ApiModelProperty(example = "디렉토리 안의 게시물 개수")
+    Long count;
 }
