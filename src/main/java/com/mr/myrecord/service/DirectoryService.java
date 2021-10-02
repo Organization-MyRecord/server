@@ -59,8 +59,7 @@ public class DirectoryService {
         User user = userRepository.findByEmail(email);
 
         Directory directory = directoryRepository.findByDirectoryNameAndUserDirectoryId(name, user.getId());
-        Post post = postRepository.findByDirectoryId(directory.getId());
-        if(directory != null && post == null) {
+        if(directory.getPostList().size()==0) {
             directoryRepository.delete(directory);
             return true;
         }

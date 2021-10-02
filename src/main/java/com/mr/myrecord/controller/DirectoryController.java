@@ -83,12 +83,11 @@ public class DirectoryController {
             String email = ((User) auth.getPrincipal()).getUsername();
 
             if(directoryService.delete(email, name) == true) {
-                return Header.OK(directoryService.delete(email, name));
+                return Header.OK(true);
             }
             else {
                 return Header.ERROR("폴더 안에 게시물이 존재합니다.");
             }
-
         }
         catch(Exception e) {
             return Header.ERROR("로그인 권한이 필요합니다.");
