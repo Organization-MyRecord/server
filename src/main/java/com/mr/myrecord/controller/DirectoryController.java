@@ -60,7 +60,7 @@ public class DirectoryController {
             String email = ((User) auth.getPrincipal()).getUsername();
 
             if(directoryService.update(email, name, directoryRequest)==true) {
-                return Header.OK(directoryService.update(email, name, directoryRequest));
+                return Header.OK(true);
             }
             else {
                 return Header.ERROR("폴더명을 입력하지 않았습니다.");
