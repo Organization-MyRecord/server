@@ -33,7 +33,7 @@ public class DirectoryService {
     public boolean create(String email, DirectoryRequest request) {
         User user = userRepository.findByEmail(email);
         String name = request.getName();
-
+        if (name == "") return false;
         Directory isOk =  directoryRepository.findByDirectoryNameAndUserDirectoryId(name, user.getId());
         if(isOk == null) {
 

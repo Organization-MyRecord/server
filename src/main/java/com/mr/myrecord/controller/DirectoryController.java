@@ -37,7 +37,7 @@ public class DirectoryController {
             String email = ((User) auth.getPrincipal()).getUsername();
 
             if(directoryService.create(email, request) == true) {
-                return Header.OK(directoryService.create(email, request));
+                return Header.OK(true);
             }
             else {
                 return Header.ERROR("이미 존재하는 디렉토리 입니다.");
