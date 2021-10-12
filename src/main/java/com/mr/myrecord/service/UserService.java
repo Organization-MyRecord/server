@@ -75,7 +75,7 @@ public class UserService {
 
         PageResponse myPage = PageResponse.builder()
                 .name(resource.getName())
-                .content(resource.getContent())
+                .description(resource.getContent())
                 .major(resource.getMajor())
                 .detailMajor(resource.getDetailMajor())
                 .field(resource.getField())

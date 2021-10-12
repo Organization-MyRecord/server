@@ -35,7 +35,7 @@ public class PageResponse {
     private int age;
 
     @ApiModelProperty(example = "자기소개")
-    private String content;
+    private String description;
 
     @ApiModelProperty(example = "자기 이메일")
     private String email;
