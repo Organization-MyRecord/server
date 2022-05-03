@@ -1,8 +1,6 @@
 package com.mr.myrecord.controller;
 
 import com.mr.myrecord.model.Header;
-import com.mr.myrecord.model.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;

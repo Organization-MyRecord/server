@@ -211,4 +211,13 @@ public class UserService {
         mailService.sendTempPwEmail(email);
         return "임시 비밀번호를 이메일로 발송했습니다.";
     }
+
+    public UserResponse findUser(String name) {
+        User user = userRepository.findByUserName(name);
+        return UserResponse.builder()
+                .age(user.getAge())
+                .id(user.getId())
+                .content(user.getContent())
+                .build();
+    }
 }
