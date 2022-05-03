@@ -112,4 +112,9 @@ public class PostController {
                            ) {
         return Header.OK(postService.searchPost(keyword, pageable));
     }
+
+    @GetMapping("/post/test")
+    public String test() {
+        return postService.test();
+    }
 }

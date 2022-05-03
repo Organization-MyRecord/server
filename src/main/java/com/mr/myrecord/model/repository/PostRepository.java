@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 @Repository
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
     @Query("select count(u.id) from Post u where u.userPostId.id = ?1")
     Long findPostNum(Long id);

@@ -6,6 +6,7 @@ import com.mr.myrecord.model.entity.User;
 import com.mr.myrecord.model.repository.DirectoryRepository;
 import com.mr.myrecord.model.repository.PostRepository;
 import com.mr.myrecord.model.repository.UserRepository;
+import com.mr.myrecord.model.repository.UserRepositoryCustom;
 import com.mr.myrecord.model.request.ChangePw;
 import com.mr.myrecord.model.request.CheckPw;
 import com.mr.myrecord.model.request.RegisterRequest;
@@ -212,12 +213,12 @@ public class UserService {
         return "임시 비밀번호를 이메일로 발송했습니다.";
     }
 
-    public UserResponse findUser(String name) {
-        User user = userRepository.findByUserName(name);
-        return UserResponse.builder()
-                .age(user.getAge())
-                .id(user.getId())
-                .content(user.getContent())
-                .build();
-    }
+//    public UserResponse findUser(String name) {
+//        User user = userRepository(name);
+//        return UserResponse.builder()
+//                .age(user.getAge())
+//                .id(user.getId())
+//                .content(user.getContent())
+//                .build();
+//    }
 }

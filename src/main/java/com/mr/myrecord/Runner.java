@@ -34,25 +34,25 @@ public class Runner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        try(Connection connection = dataSource.getConnection()) {
-            User user = User.builder()
-                    .id(1L)
-                    .age(11)
-                    .birth("1996-**-**")
-                    .detailMajor("컴퓨터공학")
-                    .content("기억보단 기록")
-                    .email("test@naver.com")
-                    .field("IT/웹/통신")
-                    .gender(GenderEnum.남)
-                    .image("string")
-                    .major("공학")
-                    .name("나는야 퉁퉁이")
-                    .password(passwordEncoder.encode("string"))
-                    .reporterCount(3)
-                    .reportedCount(3)
-                    .build();
-
-            userRepository.save(user);
+//        try(Connection connection = dataSource.getConnection()) {
+//            User user = User.builder()
+//                    .id(1L)
+//                    .age(11)
+//                    .birth("1996-**-**")
+//                    .detailMajor("컴퓨터공학")
+//                    .content("기억보단 기록")
+//                    .email("test@naver.com")
+//                    .field("IT/웹/통신")
+//                    .gender(GenderEnum.남)
+//                    .image("string")
+//                    .major("공학")
+//                    .name("나는야 퉁퉁이")
+//                    .password(passwordEncoder.encode("string"))
+//                    .reporterCount(3)
+//                    .reportedCount(3)
+//                    .build();
+//
+//            userRepository.save(user);
 
 //            Directory directory1 = Directory.builder()
 //                    .id(1L)
@@ -93,7 +93,7 @@ public class Runner implements ApplicationRunner {
 //                    .build();
 //
 //            postRepository.save(post2);
-        }
+//        }
     }
 
 

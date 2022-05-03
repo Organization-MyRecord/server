@@ -289,4 +289,9 @@ public class PostService {
                 .build();
 
     }
+
+    public String test() {
+        Post post = postRepository.findByPostgg("안녕");
+        return post.getPostName();
+    }
 }
